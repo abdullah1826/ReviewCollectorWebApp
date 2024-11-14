@@ -1,0 +1,202 @@
+  
+  .headerImage img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    object-fit: cover;
+  }
+  
+  .profileSection {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .profileImage {
+    top: 315px;
+    /* left: 89px; */
+    width: 130px;
+    margin-left: 20px;
+    height: 130px;
+    border: 5px solid white;
+    border-radius: 23px;
+    position: absolute;
+    /* position: relative; */
+    margin-right: 1rem;
+  }
+  
+  .searchContainer {
+    flex-grow: 1;
+    position: relative;
+  }
+  
+  .searchInput {
+    width: 80%;
+    float: right;
+    padding: 0.5rem 2.5rem 0.5rem 1rem;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    outline: none;
+  }
+  
+  .userIcon {
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #ddd;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .formContainer {
+    background-color: #F5F5F5;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    border: 1px solid #ddd;
+  }
+  
+  .inputGroup {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .inputFullWidth {
+    display: flex;
+    margin-bottom: 1rem;
+  }
+  
+  .inputField {
+    flex-grow: 1;
+    padding: 0.5rem;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    outline: none;
+    font-size: 1rem;
+    height: 70px;
+    width: 100%;
+  }
+  
+  .iconButton {
+    position: absolute;
+    background-color: #f1f1f1;
+    top: 15px;
+    right: 10px;
+    border: 1px solid #ddd;
+    padding: 0.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  .modeSelector {
+    display: flex;
+    justify-content: space-between;
+    /* align-items: center; */
+    gap: 1rem;
+    padding: 1rem;
+    background-color: #F5F5F5;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+  }
+  
+  .modeSelector span {
+    font-weight: bold;
+  }
+  .modeSelector input{
+    width: 100px;
+    font-size: 19px;
+    /* border: 1px solid; */
+    height: 15px;
+    border: none;
+  }
+  .backbtn {
+    background-color: #E1FFEC;
+    width: 125px;
+    height: 40px;
+    border: none;
+    font-size: 18px;
+    margin-bottom: 10px;
+    /* font-weight: bold; */
+    border-radius: 13px;
+    color: green;
+}
+
+  @media only screen and (max-width: 991px) {
+    .searchInput {
+      width: 60%;
+      float: right;
+      padding: 0.5rem 2.5rem 0.5rem 1rem;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      outline: none;
+  }
+}
+  @media only screen and (max-width: 770px){
+  .inputGroup {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    flex-direction: column;
+}
+  }
+  @media only screen and (max-width: 460px){
+    .profileImage {
+      width: 100px;
+      height: 100px;
+      border: 5px solid white;
+      border-radius: 23px;
+      position: absolute;
+      /* position: relative; */
+      margin-right: 1rem;
+  }
+  .inputGroup {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    flex-direction: column;
+  }
+  .searchInput{
+    width: 60;
+    float: right;
+    padding: 0.5rem 2.5rem 0.5rem 1rem;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    outline: none;
+}
+.formContainer {
+  background-color: #F5F5F5;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  border: 1px solid #ddd;
+}
+  }
+@media only screen and (max-width: 360px){
+  .profileImage {
+    top: 390px;
+    width: 80px;
+    height: 80px;
+    border: 5px solid white;
+    border-radius: 23px;
+    position: absolute;
+    /* position: relative; */
+    margin-right: 1rem;
+}
+.formContainer {
+  background-color: #F5F5F5;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  border: 1px solid #ddd;
+}
+}
+  
+

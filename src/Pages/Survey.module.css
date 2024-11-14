@@ -1,0 +1,83 @@
+.statusUnsatisfactory {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+  .starRating span {
+    color: gold;
+  }
+  
+  .cardbody {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 3px solid #DEDEDE;
+    border-radius: 25px;
+  }
+  .search input{
+    border: 3px solid #DEDEDE;
+    border-radius: 25px;
+    height: 70px;
+  }
+  .btn{
+    border: 3px solid #DEDEDE;
+    border-radius: 25px;
+    height: 70px;
+  }
+  .containerFluid {
+    /* existing styles */
+  }
+  
+  .modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  
+  .modalContent {
+    background: white;
+    padding: 40px;
+    border-radius: 44px;
+    max-width: 700px;
+    position: relative;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  .closeButton{
+    border: none;
+    position: absolute;
+    font-size: 35px;
+    top: 14px;
+    color: #1ACB5B;
+    right: 40px;
+    background: transparent;
+  }
+  .inactive{
+    color: #F0B61F;
+    font-size: 28px;
+  }
+  .heading{
+    font-size: 20px;
+  }
+  @media only screen and (max-width: 400px) {
+    .heading{
+      font-size: 15px;
+    }
+    .statusUnsatisfactory {
+      background-color: #f8d7da;
+      font-size: 11px;
+      color: 10px;
+      text-align: center;
+      width: 82px;
+      color: #721c24;
+  }
+
+  }
+
+  

@@ -1,0 +1,116 @@
+.logout{
+    width: 100%;
+    margin: 0px 20px;
+    height: 185px;
+    background-color: #F6F3F3;
+    border: 3px solid #DEDEDE;
+    border-radius: 25px;
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+    padding: 0px 30px;
+}
+.profile{
+    display: flex;
+}
+.profile p{
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+.profile img{
+    border-radius: 23px;
+    border: 5px solid #FFFFFF;
+}
+.settings{
+    width: 100%;
+    height: 210px;
+    background-color: aqua;
+    margin-top: 20px;
+    border-radius: 25px;
+    border: 3px solid #DEDEDE;
+    background-color: #F6F3F3;
+    display: flex;
+    padding: 20px;
+    align-items: center;
+}
+.settings p{
+    font-size: 24px;
+    margin-top: 30px;
+    font-family: "poppins";
+}
+.profile button{
+    border: none;
+    /* width: 147px; */
+    background-color: #E9E9E9;
+    padding: 10px 22px;
+    border-radius: 13px;
+}
+
+@media only screen and (max-width: 400px) {
+    body {
+      /* background-color: lightblue; */
+    }
+    .profile{
+        flex-direction: column;
+    }
+    .logout{
+        width: 100%;
+        margin: 0px 20px;
+        height: 185px;
+        background-color: #F6F3F3;
+        border: 3px solid #DEDEDE;
+        border-radius: 25px;
+        justify-content: space-between;
+        display: flex;
+        align-items: center;
+        padding: 0px 10px;
+    }
+    .profile img{
+       width: 90px; 
+       height: 90px;
+    }
+    .navbar-brand {
+        display: inline-block;
+        padding-top: .3125rem;
+        padding-bottom: .3125rem;
+        /* margin-right: 1rem; */
+        font-size: 1.25rem;
+        line-height: inherit;
+        white-space: nowrap;
+    }
+    .profile p{
+        display: flex;
+        align-items: center;
+        font-size: 13px;
+        text-align: center;
+    }
+    .profile button {
+        border: none;
+        /* width: 147px; */
+        background-color: #E9E9E9;
+        padding: 5px 15px;
+        border-radius: 13px;
+    }
+    .settings {
+        width: 100%;
+        /* height: 210px; */
+        background-color: aqua;
+        margin-top: 20px;
+        border-radius: 25px;
+        border: 3px solid #DEDEDE;
+        background-color: #F6F3F3;
+        display: flex;
+        padding: 15px;
+        align-items: center;
+    }
+    .settings img{
+        width: 60px;
+    }
+    .settings p {
+        font-size: 20px;
+        margin-top: 30px;
+        font-family: "poppins";
+    }
+
+  }

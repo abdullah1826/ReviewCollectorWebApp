@@ -1,0 +1,211 @@
+
+  .profile{
+   position: absolute;
+   top: 0;
+  }
+  
+  .coverImage img {
+    width: 100%;
+    height: 245px;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+  
+  .profileImage {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    border-radius: 23%;
+    left: 25px;
+    top: 200px;
+    border: 5px solid white;
+}
+.profileDetails{
+    padding-top: 60px;
+}
+  
+  .profileDetails h4 {
+    color: #333;
+    font-size: 1.5em;
+    margin-top: 10px;
+  }
+  
+  .profileDetails p {
+    color: #666;
+    margin: 5px 0;
+  }
+  .manageButton {
+    text-align: center;
+    justify-content: center;
+    display: flex;
+    background-color: #EFEFEF;
+    color: #B9B9B9;
+    border: none;
+    padding: 10px 20px;
+    gap: 4px;
+    border-radius: 5px;
+    width: 100%;
+    cursor: pointer;
+  }
+  .actionButtons{
+    display: flex;
+    justify-content: space-between;
+  }
+  .actionButtons button {
+    width: 100%;
+    height: 153px;
+    background-color: #EFEFEF;
+    border: 1px solid #ddd;
+    margin: 0 5px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .actionButtons button p {
+    font-size: 20px;
+    font-family: 'poppins';
+  }
+  .actionButtons button .icon {
+    width: 56px;
+    height: 56px;
+  }
+ .addprofile{
+  position: absolute;
+  right: 0;
+  margin-right: 20px;
+  margin-top: 20px;
+  height: 38px;
+  width: 130px;
+  padding: 5px;
+  background-color: #EFEFEF;
+  border: 1px solid #ddd;
+  font-size: 13px;
+  color: #B9B9B9;
+  text-align: center;
+  font-family: "poppins";
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+ }
+  
+  .listGroup {
+    background-color: #FAF7F7;
+    padding: 0;
+    border-radius: 29px;
+    text-align: center;
+    border: 1px solid #A0A0A0;
+    margin-top: 30px;
+    cursor: pointer;
+}
+input[type=radio] {
+  box-sizing: border-box;
+  padding: 0;
+  cursor: pointer;
+}
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background-color: #fff;
+  border-radius: 44px;
+  padding: 20px;
+  width: 650px;
+  max-width: 90%;
+  padding: 40px;
+  text-align: center;
+  position: relative;
+}
+.modalContent h2{
+  text-align: left;
+  font-family: 'Poppins';
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 36px;
+
+}
+
+.closeButton {
+  position: absolute;
+  top: 20px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 40px;
+  cursor: pointer;
+  color: #1acb5b;
+}
+
+.profileIcon img {
+  width: 131px;
+  height: 126px;
+  margin-bottom: 20px;
+  border: 5px solid #EDEDED;
+  border-radius: 23px;
+}
+
+.form input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+.submitButton {
+  width: 100%;
+  padding: 10px;
+  background-color: #1ACB5B; /* Green button */
+  color: #fff;
+  border: none;
+  height: 55px;
+  border-radius: 10px;
+  font-size: 16px;
+  margin-top: 15px;
+  cursor: pointer;
+}
+
+.submitButton:hover {
+  background-color: #218838;
+}
+label {
+
+  float: left;
+  display: inline-block;
+  margin-bottom: 0;
+  padding-bottom: 0;
+  /* margin-bottom: .5rem; */
+}
+form input{
+  background-color: #F2F2F2;
+  border: 1px solid #AEADAD;
+  border-radius: 10px;
+  height: 55px;
+  outline: none;
+}
+
+.sharebtn{
+  height: 67px;
+  width: 80%;
+  background-color: #00C849;
+  border-radius: 18px;
+  color: white;
+  border: none;
+  font-weight: 600;
+  margin-top: 30px;
+}
+.modalContent img{
+  border-radius: 10px;
+  margin-right: 10px;
+}

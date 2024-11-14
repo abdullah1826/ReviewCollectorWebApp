@@ -1,0 +1,46 @@
+.iconText {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Adjust gap as needed */
+    font-size: 20px; /* Adjust font size as per your design */
+    text-decoration: none;
+  }
+  .navLink {
+    display: flex;
+    align-items: center;
+    color: #989898;
+    padding: 7px;
+}
+
+/* Active link style */
+.active {
+    color: #36D06E;
+    background-color: #E1FFEC;
+    border-radius: 13px;
+}
+
+/* Remove hover effect */
+.navLink:hover {
+    color: #36D06E;
+    cursor: pointer;
+}
+  
+  .nav-link span{
+    font-family: "Poppins";
+
+  }
+
+.brandText {
+    display: flex;
+    align-items: center;
+    gap: 10px; 
+    font-size: 18px;
+    font-weight: bold;
+    color:#36D06E;
+  }
+
+  
+  ul li{
+    padding: 0px 20px;
+    cursor: pointer;
+  }
