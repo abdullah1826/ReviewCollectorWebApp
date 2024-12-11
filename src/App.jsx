@@ -1,82 +1,106 @@
-
-// import './App.css'
-import { createBrowserRouter,RouterProvider,Navigate } from 'react-router-dom'
-import Signin from './Authentication/Signin'
-import Signup from './Authentication/Signup'
-import ForgotPassword from './Authentication/ForgotPassword'
-import Profile from './Pages/Profile'
-import Dashboard from './Pages/Dashboard'
-import Setting from './Pages/Setting'
-import Survey from './Pages/Survey'
-import ManageProfile from './Pages/ManageProfile'
+import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { useState, useEffect } from 'react';
+import Signin from './Authentication/Signin';
+import Signup from './Authentication/Signup';
+import ForgotPassword from './Authentication/ForgotPassword';
+import Profile from './Pages/Profile';
+import Dashboard from './Pages/Dashboard';
+import Setting from './Pages/Setting';
+import Survey from './Pages/Survey';
+import ManageProfile from './Pages/ManageProfile';
+import AboutApp from './Pages/AboutApp';
+import PrivateRoute from './components/PrivateRoute';
+import LoginRoute from './components/LoginRoute';
 
 function App() {
-   const router = createBrowserRouter([
+  const [user, setUser] = useState(null); 
+  const auth = getAuth();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user); 
+    });
+
+    return () => unsubscribe(); 
+  }, [auth]);
+
+  const router = createBrowserRouter([
     {
       path: '/',
-      element: <Navigate to="/profile" replace />
+      element: user ? <Navigate to="/profile" replace /> : <Navigate to="/signin" replace />,
     },
     {
       path: '/signup',
-      element:
-      <div>
-        <Signup/>
-      </div>
+      element: (
+        <LoginRoute user={user}>
+          <Signup />
+        </LoginRoute>
+      ),
     },
     {
       path: '/signin',
-      element:
-      <div>
-        <Signin/>
-      </div>
+      element: (
+        <LoginRoute user={user}>
+          <Signin />
+        </LoginRoute>
+      ),
     },
     {
       path: '/forgotPassword',
-      element:
-      <div>
-        <ForgotPassword/>
-      </div>
+      element: <ForgotPassword />,
     },
     {
       path: '/profile',
-      element:
-      <div>
-        <Profile/>
-      </div>
+      element: (
+        <PrivateRoute user={user}>
+          <Profile />
+        </PrivateRoute>
+      ),
     },
     {
       path: '/dashboard',
-      element:
-      <div>
-        <Dashboard/>
-      </div>
+      element: (
+        <PrivateRoute user={user}>
+          <Dashboard />
+        </PrivateRoute>
+      ),
     },
     {
       path: '/setting',
-      element:
-      <div>
-        <Setting/>
-      </div>
+      element: (
+        <PrivateRoute user={user}>
+          <Setting />
+        </PrivateRoute>
+      ),
     },
     {
       path: '/survey',
-      element:
-      <div>
-        <Survey/>
-      </div>
+      element: (
+        <PrivateRoute user={user}>
+          <Survey />
+        </PrivateRoute>
+      ),
     },
     {
       path: '/manageProfile',
-      element:
-      <div>
-        <ManageProfile/>
-      </div>
+      element: (
+        <PrivateRoute user={user}>
+          <ManageProfile />
+        </PrivateRoute>
+      ),
     },
-   ])
+    {
+      path: '/aboutApp',
+      element: (
+        <PrivateRoute user={user}>
+          <AboutApp />
+        </PrivateRoute>
+      ),
+    },
+  ]);
 
-  return (
-    <RouterProvider router={router} />
-  )
+  return <RouterProvider router={router} />;
 }
 
-export default App
+export default App;

@@ -1,17 +1,175 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 480px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.modalTitle {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333333;
+  margin-bottom: 10px;
+}
+
+.modalText {
+  font-size: 16px;
+  color: #666666;
+  margin-bottom: 20px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.input {
+  padding: 10px;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  font-size: 14px;
+  width: 100%;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.submitButton {
+  padding: 10px 20px;
+  background-color: #ff4d4d;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.cancelButton {
+  padding: 10px 20px;
+  background-color: #cccccc;
+  color: #333333;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.submitButton:hover {
+  background-color: #e63939;
+}
+
+.cancelButton:hover {
+  background-color: #b3b3b3;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.hoverEffect {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .hoverEffect:hover {
+    transform: translateY(-5px); /* Moves the div slightly upward */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds a shadow effect */
+  }
+  
+  .hoverEffect:hover img {
+    transform: scale(1.1); /* Slight zoom effect on the image */
+    transition: transform 0.3s ease;
+  }
+  
+  .hoverEffect p {
+    margin: 0;
+    color: #333;
+  }
+  
+  .hoverEffect:hover p {
+    transition: color 0.3s ease;
+  }
+  .logoutButton {
+    background-color: #e63946;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .logoutButton:hover {
+    background-color: #d62839;
+  }
+.userDetails {
+    margin-top: 10px;
+    margin-left: 10px;
+  }
+  
+  .userName {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .businessName {
+    font-size: 1rem;
+    color: #666;
+  }
 .logout{
-    width: 100%;
-    margin: 0px 20px;
     height: 185px;
     background-color: #F6F3F3;
     border: 3px solid #DEDEDE;
     border-radius: 25px;
     justify-content: space-between;
-    display: flex;
+    display: flex
+;
     align-items: center;
     padding: 0px 30px;
 }
 .profile{
     display: flex;
+}
+.confirmButton {
+  background-color: #2ccf68; /* Green background */
+  color: white;
+  border: none;
+  outline: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
 }
 .profile p{
     display: flex;
@@ -21,6 +179,7 @@
 .profile img{
     border-radius: 23px;
     border: 5px solid #FFFFFF;
+    object-fit: cover;
 }
 .settings{
     width: 100%;
@@ -32,6 +191,7 @@
     background-color: #F6F3F3;
     display: flex;
     padding: 20px;
+    cursor: pointer;
     align-items: center;
 }
 .settings p{
@@ -41,10 +201,20 @@
 }
 .profile button{
     border: none;
-    /* width: 147px; */
-    background-color: #E9E9E9;
     padding: 10px 22px;
     border-radius: 13px;
+}
+.editIcon{
+  bottom: 0px;
+  background-color: #ffffff;
+  padding: 3px;
+  position: absolute;
+  /* top: 83%; */
+  border-radius: 9px;
+  padding: -11px;
+  font-size: 22px;
+  /* left: 95%; */
+  transform: translate(-50%, -50%);
 }
 
 @media only screen and (max-width: 400px) {
@@ -54,11 +224,11 @@
     .profile{
         flex-direction: column;
     }
+    .userDetails{
+      margin-top: 0;
+    }
     .logout{
-        width: 100%;
-        margin: 0px 20px;
         height: 185px;
-        background-color: #F6F3F3;
         border: 3px solid #DEDEDE;
         border-radius: 25px;
         justify-content: space-between;
@@ -66,9 +236,24 @@
         align-items: center;
         padding: 0px 10px;
     }
+    .editIcon{
+      bottom: 0px;
+      background-color: #ffffff;
+      padding: 3px;
+      position: absolute;
+      /* top: 83%; */
+      border-radius: 9px;
+      padding: -11px;
+      font-size: 22px;
+      /* left: 95%; */
+      transform: translate(-50%, -50%);
+    }
+    
+    
     .profile img{
        width: 90px; 
        height: 90px;
+       object-fit: cover;
     }
     .navbar-brand {
         display: inline-block;
@@ -88,8 +273,8 @@
     .profile button {
         border: none;
         /* width: 147px; */
-        background-color: #E9E9E9;
-        padding: 5px 15px;
+        /* background-color: #E9E9E9; */
+        padding: 7px 10px;
         border-radius: 13px;
     }
     .settings {

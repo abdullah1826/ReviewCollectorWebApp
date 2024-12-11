@@ -35,7 +35,7 @@
 }
 .signupcontainer p{
     font-family: 'Poppins';
-    font-size: 20px;
+    font-size: 13px;
     font-weight: 400;
     line-height: 36px;
    color: #3D3D3D;
@@ -59,14 +59,22 @@
     font-family: 'Poppins';
     outline: none;
 }
-
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+  }
+  
 /* Sign Up button styling */
 .signupcontainer button {
     background-color: #00C849;
     color: white;
-    width: 100%;
-    height: 80px;
-    border-radius: 18px;
+    width: 90%;
+    height: 70px;
+    border-radius: 40px;
+    /* border: none; */
     cursor: pointer;
     font-family: Coolvetica;
     font-size: 21px;
@@ -85,3 +93,12 @@
     right: 0;
     top: 0;
 }
+@media only screen and (max-width: 460px){
+    .signupcontainer {
+        padding: 0;
+        width: 100%;
+        max-width: 500px;
+        text-align: center;
+    }
+
+  }

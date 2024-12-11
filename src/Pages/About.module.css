@@ -1,0 +1,12 @@
+.backbtn{
+    background-color: #E1FFEC;
+    width: 125px;
+    height: 40px;
+    border: none;
+    font-size: 18px;
+    margin-bottom: 10px;
+    /* font-weight: bold; */
+    border-radius: 13px;
+    color: green;
+    
+}
