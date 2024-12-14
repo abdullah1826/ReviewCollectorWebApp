@@ -7,9 +7,8 @@ import resetPassword from "../assets/images/ResetPassword.png";
 import { AiOutlineLogout } from "react-icons/ai";
 import profilepic from "../assets/images/profileP.png";
 import { useNavigate } from "react-router-dom";
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2";
 import { FaRegEdit } from "react-icons/fa";
-
 
 import {
   getAuth,
@@ -45,7 +44,7 @@ const Profile = () => {
 
   const handleResetPassword = () => {
     const user = auth.currentUser;
-  
+
     if (user && user.email) {
       // SweetAlert confirmation dialog
       Swal.fire({
@@ -54,10 +53,10 @@ const Profile = () => {
         icon: "warning",
         showCancelButton: true,
         confirmButtonText: "Yes, reset it!",
-        cancelButtonText: "No, cancel", 
+        cancelButtonText: "No, cancel",
         customClass: {
-          confirmButton: styles.confirmButton, 
-          cancelButton: styles.cancelButton,  
+          confirmButton: styles.confirmButton,
+          cancelButton: styles.cancelButton,
         },
       }).then((result) => {
         if (result.isConfirmed) {
@@ -111,10 +110,10 @@ const Profile = () => {
   };
   const handleDeleteAccount = async (e) => {
     e.preventDefault();
-  
+
     const user = auth.currentUser;
     const db = getDatabase();
-  
+
     if (!user) {
       Swal.fire({
         title: "No User Logged In",
@@ -126,7 +125,7 @@ const Profile = () => {
       });
       return;
     }
-  
+
     if (!password) {
       Swal.fire({
         title: "Password Required",
@@ -138,9 +137,9 @@ const Profile = () => {
       });
       return;
     }
-  
+
     const credential = EmailAuthProvider.credential(user.email, password);
-  
+
     try {
       // SweetAlert confirmation before deletion
       const result = await Swal.fire({
@@ -154,7 +153,7 @@ const Profile = () => {
           confirmButton: styles.confirmButton, // Green button for info dialog
         },
       });
-  
+
       if (!result.isConfirmed) {
         Swal.fire({
           title: "Canceled",
@@ -166,18 +165,22 @@ const Profile = () => {
         });
         return; // Exit if canceled
       }
-  
+
       // Reauthenticate the user with the entered password
       await reauthenticateWithCredential(user, credential);
-  
+
       const userId = user.uid;
       const tables = ["Reviews", "Analytic"];
-  
+
       // Delete data from tables
       const deletePromises = tables.map((table) => {
         const tableRef = ref(db, table);
-        const tableQuery = query(tableRef, orderByChild("userid"), equalTo(userId));
-  
+        const tableQuery = query(
+          tableRef,
+          orderByChild("userid"),
+          equalTo(userId)
+        );
+
         return get(tableQuery).then((snapshot) => {
           if (snapshot.exists()) {
             const data = snapshot.val();
@@ -189,17 +192,17 @@ const Profile = () => {
           return Promise.resolve(); // No data exists in this table
         });
       });
-  
+
       // Delete user data from the User table
       const userRef = ref(db, `User/${userId}`);
       const deleteUserDataPromise = remove(userRef);
-  
+
       // Wait for all deletions to complete
       await Promise.all([...deletePromises, deleteUserDataPromise]);
-  
+
       // Delete the Firebase Authentication account
       await deleteUser(user);
-  
+
       // Show success SweetAlert
       Swal.fire({
         title: "Account Deleted!",
@@ -209,14 +212,14 @@ const Profile = () => {
           confirmButton: styles.confirmButton, // Green button for info dialog
         },
       });
-  
+
       // Clear local storage and redirect
       localStorage.clear();
       closeModal();
       navigate("/signin"); // Redirect to sign-in page
     } catch (error) {
       // Check if the error is related to wrong password
-      if (error.code === 'auth/requires-recent-login') {
+      if (error.code === "auth/requires-recent-login") {
         // Show error SweetAlert for wrong password
         Swal.fire({
           title: "Authentication Failed",
@@ -233,41 +236,41 @@ const Profile = () => {
       }
     }
   };
-  const handleProfileClick =()=>{
-    navigate('/manageProfile');
-  }
-  
+  const handleProfileClick = () => {
+    navigate("/manageProfile");
+  };
+
   const logoutUser = () => {
     Swal.fire({
-      title: 'Are you sure?',
+      title: "Are you sure?",
       text: "You will be logged out of your account!",
-      icon: 'warning',
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonText: 'Yes, logout!',
-      cancelButtonText: 'No, stay logged in',
+      confirmButtonText: "Yes, logout!",
+      cancelButtonText: "No, stay logged in",
       customClass: {
         confirmButton: styles.confirmButton, // Green confirmation button
-        cancelButton: styles.cancelButton,  // Red cancel button
+        cancelButton: styles.cancelButton, // Red cancel button
       },
     }).then((result) => {
       if (result.isConfirmed) {
         // Perform the logout logic
         localStorage.clear();
         navigate("/signin");
-        console.log('User logged out');
+        console.log("User logged out");
       } else {
-        console.log('Logout cancelled');
+        console.log("Logout cancelled");
       }
     });
   };
-  
+
   useEffect(() => {
     const uid = localStorage.getItem("useruid");
     if (!uid) {
       console.error("No UID found in localStorage.");
       return;
     }
-    
+
     const fetchUserData = async () => {
       const db = getDatabase();
       const userRef = ref(db, `User/${uid}`);
@@ -291,49 +294,59 @@ const Profile = () => {
       <Navbar />
       <hr />
       <div className="container">
-      {isOpen && (
-  <div className={styles.overlay}>
-    <div className={styles.modal}>
-      <h3 className={styles.modalTitle}>Delete Account</h3>
-      <p className={styles.modalText}>
-        Are you sure you want to delete your account? This action cannot be undone.
-      </p>
-      <form className={styles.form} onSubmit={handleDeleteAccount}>
-        <input
-          className={styles.input}
-          placeholder="Enter Your Password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <div className={styles.buttonContainer}>
-          <button type="submit" className={styles.submitButton}>
-            Confirm Delete
-          </button>
-          <button
-            type="button"
-            onClick={closeModal}
-            className={styles.cancelButton}
-          >
-            Cancel
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-)}
+        {isOpen && (
+          <div className={styles.overlay}>
+            <div className={styles.modal}>
+              <h3 className={styles.modalTitle}>Delete Account</h3>
+              <p className={styles.modalText}>
+                Are you sure you want to delete your account? This action cannot
+                be undone.
+              </p>
+              <form className={styles.form} onSubmit={handleDeleteAccount}>
+                <input
+                  className={styles.input}
+                  placeholder="Enter Your Password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+                <div className={styles.buttonContainer}>
+                  <button type="submit" className={styles.submitButton}>
+                    Confirm Delete
+                  </button>
+                  <button
+                    type="button"
+                    onClick={closeModal}
+                    className={styles.cancelButton}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
 
         <div className="row">
           <div className="col-md-12">
             <div className={styles.logout}>
               <div className={styles.profile}>
-                <div style={{position:'relative'}}>
-                   <img src={userData?.profileUrl || profilepic} width="110px" height="110px" alt="Profile" />
-                      <FaRegEdit className={styles.editIcon} onClick={handleProfileClick} style={{cursor:"pointer"}}/>
-               </div>
+                <div style={{ position: "relative" }}>
+                  <img
+                    src={userData?.profileUrl || profilepic}
+                    width="110px"
+                    height="110px"
+                    alt="Profile"
+                  />
+                  <FaRegEdit
+                    className={styles.editIcon}
+                    onClick={handleProfileClick}
+                    style={{ cursor: "pointer" }}
+                  />
+                </div>
                 <div className={styles.userDetails}>
-                  <p className={styles.userName} style={{margin:'0'}}>
+                  <p className={styles.userName} style={{ margin: "0" }}>
                     {userData?.businessName || "Guest"}
                   </p>
                   <p className={styles.businessName}>
@@ -356,7 +369,7 @@ const Profile = () => {
               onClick={about}
             >
               <div>
-                <img src={information} width="70" alt="About App" />
+                <img src={information} width="60" alt="About App" />
                 <p>About App</p>
               </div>
             </div>
@@ -364,7 +377,7 @@ const Profile = () => {
           <div className="col-md-4">
             <div className={`${styles.settings} ${styles.hoverEffect}`}>
               <div>
-                <img src={folder} width="70" alt="Privacy Policy" />
+                <img src={folder} width="60" alt="Privacy Policy" />
                 <p>Privacy Policy</p>
               </div>
             </div>
@@ -375,7 +388,7 @@ const Profile = () => {
               onClick={handleResetPassword}
             >
               <div>
-                <img src={resetPassword} width="70" alt="Reset Password" />
+                <img src={resetPassword} width="60" alt="Reset Password" />
                 <p>Reset Password</p>
               </div>
             </div>

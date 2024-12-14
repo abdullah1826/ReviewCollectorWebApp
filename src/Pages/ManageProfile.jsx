@@ -5,16 +5,21 @@ import { IoCopyOutline } from "react-icons/io5";
 import coverpic from "../assets/images/coverP.png";
 import profilepic from "../assets/images/profileP.png";
 import { getDatabase, ref, get, update } from "firebase/database";
-import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
+import {
+  getStorage,
+  ref as storageRef,
+  uploadBytes,
+  getDownloadURL,
+} from "firebase/storage";
 import { MdCameraAlt } from "react-icons/md";
-import Swal from 'sweetalert2';
-
+import Swal from "sweetalert2";
+import { IoSearch } from "react-icons/io5";
 
 import { useNavigate } from "react-router-dom";
 
 const ManageProfile = () => {
-
   const navigate = useNavigate();
+  const db = getDatabase(); // Initialize Firebase database
   const storage = getStorage();
   const handleBack = () => {
     navigate(-1); // Go back to the previous page
@@ -24,7 +29,7 @@ const ManageProfile = () => {
 
   const handleSearch = async (input) => {
     if (input.trim() === "") {
-      setResults([]);
+      setResults([]); // Clear results if input is blank
       return;
     }
 
@@ -39,10 +44,10 @@ const ManageProfile = () => {
       setResults(data);
     } catch (error) {
       console.error("Error fetching location:", error.message);
-      setResults([]);
+      setResults([]); // Clear results on error
     }
   };
-  
+
   const [userData, setUserData] = useState({
     businessName: "",
     phone: "",
@@ -53,22 +58,17 @@ const ManageProfile = () => {
     coverUrl: "",
   });
 
- 
   const handleSelectPlace = (place) => {
     setUserData((prev) => ({
       ...prev,
       businessName: place.display_name.split(",")[0] || "Unknown Place",
-      place_id: place.place_id,  // Add place_id from the place
+      place_id: place.place_id, // Add place_id from the place
       reviewLink: `https://www.google.com/maps/place/?q=place_id:${place.place_id}`,
       businessPageLink: `https://www.google.com/maps/place/?q=place_id:${place.place_id}`,
     }));
     setQuery(place.display_name);
     setResults([]);
   };
-  
-
-
-  const db = getDatabase(); // Initialize Firebase database
 
   useEffect(() => {
     const uid = localStorage.getItem("useruid");
@@ -95,7 +95,6 @@ const ManageProfile = () => {
     fetchUserData();
   }, []);
 
-
   // Handle change for form fields if editing is allowed
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -108,28 +107,26 @@ const ManageProfile = () => {
       console.error("UID or file is missing.");
       return;
     }
-  
-    // Rename the file to ensure it has a .jpeg extension
-    const renamedFile = new File([file], `${uid}.jpeg`, { type: "image/jpeg" });
-  
+
     try {
       console.log(`Uploading ${type}...`);
-  
-      // Save the file in the 'profileImages' folder
-      const fileRef = storageRef(storage, `/profileImages/${renamedFile.name}`);
-  
-      // Upload file to Firebase Storage
-      await uploadBytes(fileRef, renamedFile);
+
+      // Use the original file name or a sanitized version with the UID
+      const fileName = `${uid}_${file.name}`;
+      const fileRef = storageRef(storage, `/profileImages/${fileName}`);
+
+      // Upload file directly to Firebase Storage
+      await uploadBytes(fileRef, file);
       console.log(`Upload complete for ${type}.`);
-  
+
       // Get the file's download URL
       const downloadURL = await getDownloadURL(fileRef);
       console.log(`${type} download URL:`, downloadURL);
-  
+
       // Update the user's data in Firebase Realtime Database
       const userRef = ref(db, `User/${uid}`);
       await update(userRef, { [type]: downloadURL });
-  
+
       // Update local state with Firebase Storage URL
       setUserData((prev) => ({ ...prev, [type]: downloadURL }));
       console.log(`${type} updated successfully in database.`);
@@ -137,8 +134,7 @@ const ManageProfile = () => {
       console.error(`Error uploading ${type}:`, error);
     }
   };
-  
-  
+
   const handleProfilePicChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -162,9 +158,9 @@ const ManageProfile = () => {
     if (!uid) {
       console.error("No UID found in localStorage.");
       Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'No user ID found. Please log in again.',
+        icon: "error",
+        title: "Error",
+        text: "No user ID found. Please log in again.",
       });
       return;
     }
@@ -177,28 +173,28 @@ const ManageProfile = () => {
 
       // Show SweetAlert success message
       Swal.fire({
-        icon: 'success',
-        title: 'Success',
-        text: 'Your data has been updated successfully!',
-        confirmButtonText: 'OK',
+        icon: "success",
+        title: "Success",
+        text: "Your data has been updated successfully!",
+        confirmButtonText: "OK",
       });
     } catch (error) {
       console.error("Error updating user data:", error);
 
       // Show SweetAlert error message
       Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'There was an issue updating your data. Please try again later.',
-        confirmButtonText: 'OK',
+        icon: "error",
+        title: "Error",
+        text: "There was an issue updating your data. Please try again later.",
+        confirmButtonText: "OK",
       });
     }
   };
 
   const handleCopy = (text) => {
-
     if (text) {
-      navigator.clipboard.writeText(text)
+      navigator.clipboard
+        .writeText(text)
         .then(() => alert("Link copied to clipboard!"));
     } else {
       alert("No review link to copy!");
@@ -206,23 +202,28 @@ const ManageProfile = () => {
   };
   return (
     <div className={styles.containerFluid}>
-
       <Navbar />
       <div className="container">
-        <button className={styles.backbtn} onClick={handleBack}>Back</button>
+        <button className={styles.backbtn} onClick={handleBack}>
+          Back
+        </button>
         {/* Header Image */}
         <div className="row">
           <div className="col-md-12" style={{ position: "relative" }}>
             <div className={styles.profileSection}>
               <div className={styles.coverImage}>
                 <img
-                   src={userData?.coverUrl || coverpic} 
+                  src={userData?.coverUrl || coverpic}
                   alt="Cover"
-                  onClick={() => document.getElementById("cover-pic-upload").click()}
+                  onClick={() =>
+                    document.getElementById("cover-pic-upload").click()
+                  }
                 />
                 <MdCameraAlt
                   className={styles.editCoverIcon}
-                  onClick={() => document.getElementById("cover-pic-upload").click()}
+                  onClick={() =>
+                    document.getElementById("cover-pic-upload").click()
+                  }
                 />
                 <input
                   type="file"
@@ -236,7 +237,7 @@ const ManageProfile = () => {
               <div className={styles.profile}>
                 <div>
                   <img
-                      src={userData?.profileUrl || profilepic}
+                    src={userData?.profileUrl || profilepic}
                     alt="Profile"
                     style={{
                       width: "105px",
@@ -246,7 +247,9 @@ const ManageProfile = () => {
                       border: "5px solid rgb(255 255 255)",
                       cursor: "pointer",
                     }}
-                    onClick={() => document.getElementById("profile-pic-upload").click()}
+                    onClick={() =>
+                      document.getElementById("profile-pic-upload").click()
+                    }
                   />
                   <div className={styles.editOverlay}>
                     <MdCameraAlt
@@ -270,31 +273,44 @@ const ManageProfile = () => {
               </div>
 
               <div style={{ position: "relative" }}>
-                <input
-                  type="text"
-                  placeholder="Search for a place"
-                  value={query}
-                  onChange={(e) => {
-                    setQuery(e.target.value);
-                    handleSearch(e.target.value);
-                  }}
-                  className={styles.inputSearch}
-                />
+                <div
+                  style={{ width: "55%", float: "right", position: "relative" }}
+                >
+                  <IoSearch
+                    style={{
+                      position: "absolute",
+                      left: "2px",
+                      top: "32px",
+                      fontSize: "24px",
+                      color: "#a4a4a4",
+                    }}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Search for a place"
+                    value={query}
+                    onChange={(e) => {
+                      setQuery(e.target.value);
+                      handleSearch(e.target.value);
+                    }}
+                    className={styles.inputSearch}
+                  />
+                </div>
+
                 {results.length > 0 && (
                   <ul
                     style={{
-                      position: 'absolute',
-                      top: '71px',
-                      right: '0',
-                      width: '55%',
-                      maxHeight: '200px',
-                      overflow: 'auto',
-                      backgroundColor: 'white',
-                      listStyle: 'none',
-                      padding: '10px',
-                      margin: '0',
-                      zIndex: '100',
-                      boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)', // Optional: adds a little shadow for better visibility
+                      position: "absolute",
+                      top: "71px",
+                      right: "0",
+                      width: "55%",
+                      maxHeight: "200px",
+                      overflow: "auto",
+                      backgroundColor: "white",
+                      listStyle: "none",
+                      padding: "10px",
+                      margin: "0",
+                      zIndex: "100",
                     }}
                   >
                     {results.map((place, index) => (
@@ -303,7 +319,10 @@ const ManageProfile = () => {
                         style={{
                           cursor: "pointer",
                           padding: "5px 10px",
-                          borderBottom: index !== results.length - 1 ? "1px solid #eee" : "none",
+                          borderBottom:
+                            index !== results.length - 1
+                              ? "1px solid #eee"
+                              : "none",
                         }}
                         onClick={() => handleSelectPlace(place)}
                       >
@@ -313,7 +332,6 @@ const ManageProfile = () => {
                   </ul>
                 )}
               </div>
-
             </div>
           </div>
         </div>
@@ -325,7 +343,6 @@ const ManageProfile = () => {
               name="businessName"
               value={userData.businessName}
               readOnly
-
               onChange={handleInputChange}
               placeholder="Business Name"
               className={styles.inputField}
@@ -348,10 +365,12 @@ const ManageProfile = () => {
                 onChange={handleInputChange}
                 placeholder="Review Link"
                 readOnly
-
                 className={styles.inputField}
               />
-              <button className={styles.iconButton} onClick={() => handleCopy(userData.reviewLink)}>
+              <button
+                className={styles.iconButton}
+                onClick={() => handleCopy(userData.reviewLink)}
+              >
                 <IoCopyOutline />
               </button>
             </div>
@@ -365,7 +384,10 @@ const ManageProfile = () => {
                 readOnly
                 className={styles.inputField}
               />
-              <button className={styles.iconButton} onClick={() => handleCopy(userData.businessPageLink)}>
+              <button
+                className={styles.iconButton}
+                onClick={() => handleCopy(userData.businessPageLink)}
+              >
                 <IoCopyOutline />
               </button>
             </div>
@@ -388,7 +410,7 @@ const ManageProfile = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ManageProfile
+export default ManageProfile;

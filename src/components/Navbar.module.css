@@ -43,4 +43,13 @@
   ul li{
     padding: 0px 20px;
     cursor: pointer;
+    color: #1ACB5B; 
+
   }
+  .activeLink {
+    color: #1ACB5B; 
+    border-radius: 13px;
+    background-color: #E1FFEC;    ;
+    font-weight: bold;
+  }
+  
