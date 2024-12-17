@@ -243,6 +243,16 @@ const Profile = () => {
           text: "Link copied to clipboard!",
           icon: "success",
           confirmButtonText: "OK",
+            customClass: {
+                    confirmButton: styles.confirmButton, // Green button for info dialog
+                  },
+          didOpen: () => {
+            const popup = Swal.getPopup();
+            if (popup) {
+              popup.style.width = "300px";
+              popup.style.height = "auto";
+            }
+          },
         });
       })
       .catch(() => {
@@ -251,6 +261,13 @@ const Profile = () => {
           text: "Failed to copy the link.",
           icon: "error",
           confirmButtonText: "Try Again",
+          didOpen: () => {
+            const popup = Swal.getPopup();
+            if (popup) {
+              popup.style.width = "300px";
+              popup.style.height = "auto";
+            }
+          },
         });
       });
   };
@@ -512,23 +529,23 @@ const Profile = () => {
       {/* Share Modal */}
       {showShareModal && (
         <div className={styles.modalOverlay}>
-          <div className={styles.modalContent} style={{ width: "500px" }}>
-            <button className={styles.closeButton} onClick={closeModal}>
+          <div className={styles.modalContent} style={{ width: "400px" }}>
+            <span className={styles.closeButton} onClick={closeModal}>
               &times;
-            </button>
+            </span>
             <div
               style={{
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                marginTop: "50px",
+                marginTop: "18px",
               }}
             >
               <div>
-                <h2 style={{ textAlign: "center", fontSize: "30px" }}>
+                <h2 style={{ textAlign: "center", fontSize: "25px" }}>
                   Share QR Code
                 </h2>
-                <p style={{ fontSize: "22px" }}>
+                <p style={{ fontSize: "16px" }}>
                   Scan this QR Code to share your profile
                 </p>
                 <QRCode value={shareData} size={150} />

@@ -164,7 +164,7 @@ input[type=radio] {
   padding: 20px;
   width: 650px;
   max-width: 90%;
-  padding: 30px;
+  padding: 20px;
   text-align: center;
   position: relative;
 }
@@ -189,13 +189,14 @@ input[type=radio] {
 
 .closeButton {
   position: absolute;
-  top: 20px;
-  right: 10px;
+  top: 3px;
+  right: 13px;
   background: none;
   border: none;
   font-size: 40px;
   cursor: pointer;
   color: #1acb5b;
+  outline: none;
 }
 
 .profileIcon{
@@ -259,10 +260,25 @@ form input{
   height: 55px;
   outline: none;
 }
+.swal-popup-small {
+  width: 300px !important; /* Adjust width */
+  height: auto !important; /* Adjust height */
+  padding: 20px !important; /* Adjust padding */
+}
 
+.confirmButton {
+  background-color: #2ccf68; /* Green background */
+  color: white;
+  border: none;
+  outline: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
 .sharebtn{
-  height: 67px;
-  width: 80%;
+  height: 55px;
+  width: 75%;
   background-color: #00C849;
   border-radius: 18px;
   color: white;

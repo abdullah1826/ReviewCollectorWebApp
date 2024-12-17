@@ -94,7 +94,16 @@
     margin-bottom: 1.5rem;
     border: 1px solid #ddd;
   }
-  
+  .confirmButton {
+    background-color: #2ccf68; /* Green background */
+    color: white;
+    border: none;
+    outline: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+  }
   .inputGroup {
     display: flex;
     gap: 0.5rem;

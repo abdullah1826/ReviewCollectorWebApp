@@ -4,6 +4,7 @@ import styles from "../Pages/ManageProfile.module.css";
 import { IoCopyOutline } from "react-icons/io5";
 import coverpic from "../assets/images/coverP.png";
 import profilepic from "../assets/images/profileP.png";
+import axios from "axios";
 import { getDatabase, ref, get, update } from "firebase/database";
 import {
   getStorage,
@@ -26,27 +27,7 @@ const ManageProfile = () => {
   };
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
-
-  const handleSearch = async (input) => {
-    if (input.trim() === "") {
-      setResults([]); // Clear results if input is blank
-      return;
-    }
-
-    try {
-      const response = await fetch(
-        `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(
-          input
-        )}&format=json&addressdetails=1&limit=5`
-      );
-      if (!response.ok) throw new Error("Network response was not ok");
-      const data = await response.json();
-      setResults(data);
-    } catch (error) {
-      console.error("Error fetching location:", error.message);
-      setResults([]); // Clear results on error
-    }
-  };
+  const [error, setError] = useState("");
 
   const [userData, setUserData] = useState({
     businessName: "",
@@ -58,15 +39,53 @@ const ManageProfile = () => {
     coverUrl: "",
   });
 
+  const handleSearch = async (input) => {
+    console.log("Input value:", input); 
+
+    if (input.trim() === "") {
+      console.log("Input is empty"); 
+     setTimeout(() => {
+      setResults([]); 
+     }, 1500);
+      setError(""); 
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        "https://reviews-collector.kameti.pk/api/getPlaces",
+        {
+          text: input, // Dynamic input
+          token: "23r32wr3w4royte875dw3drfq3xr", // Your static token
+        },
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
+      setResults(response.data?.predictions); // Update results state
+      // console.log("Fetched Results:", );
+      setError(""); // Clear any previous errors
+    } catch (err) {
+      console.error("Error fetching places:", err);
+      setError("Failed to fetch places. Please try again.");
+      setResults([]); // Clear results on error
+    }
+  };
+
+
   const handleSelectPlace = (place) => {
+
+    let placeName = place.structured_formatting.main_text.split(",")[0] || "Unknown Place";
+    let businessAddress = place.structured_formatting.secondary_text.split(",")[0] || "";
     setUserData((prev) => ({
       ...prev,
-      businessName: place.display_name.split(",")[0] || "Unknown Place",
-      place_id: place.place_id, // Add place_id from the place
-      reviewLink: `https://www.google.com/maps/place/?q=place_id:${place.place_id}`,
-      businessPageLink: `https://www.google.com/maps/place/?q=place_id:${place.place_id}`,
+      businessName: placeName +", "+ businessAddress,
+      place_id: place.structured_formatting.main_text, // Add place_id from the place
+      reviewLink:  `https://search.google.com/local/writereview?placeid=${place.place_id}`,
+      businessPageLink: `https://www.google.com/maps/search/?api=1&query=Google&query_place_id=${place.place_id}`,
     }));
-    setQuery(place.display_name);
+    setQuery("");
     setResults([]);
   };
 
@@ -161,6 +180,7 @@ const ManageProfile = () => {
         icon: "error",
         title: "Error",
         text: "No user ID found. Please log in again.",
+       
       });
       return;
     }
@@ -177,6 +197,9 @@ const ManageProfile = () => {
         title: "Success",
         text: "Your data has been updated successfully!",
         confirmButtonText: "OK",
+           customClass: {
+                  confirmButton: styles.confirmButton, 
+                },
       });
     } catch (error) {
       console.error("Error updating user data:", error);
@@ -273,65 +296,77 @@ const ManageProfile = () => {
               </div>
 
               <div style={{ position: "relative" }}>
-                <div
-                  style={{ width: "55%", float: "right", position: "relative" }}
-                >
-                  <IoSearch
-                    style={{
-                      position: "absolute",
-                      left: "2px",
-                      top: "32px",
-                      fontSize: "24px",
-                      color: "#a4a4a4",
-                    }}
-                  />
-                  <input
-                    type="text"
-                    placeholder="Search for a place"
-                    value={query}
-                    onChange={(e) => {
-                      setQuery(e.target.value);
-                      handleSearch(e.target.value);
-                    }}
-                    className={styles.inputSearch}
-                  />
-                </div>
+      {/* Input and Search Icon */}
+      <div style={{ width: "55%", float: "right", position: "relative" }}>
+        <IoSearch
+          style={{
+            position: "absolute",
+            left: "10px",
+            top: "32px",
+            fontSize: "24px",
+            color: "#a4a4a4",
+          }}
+        />
+        <input
+          type="text"
+          placeholder="Search for a place"
+          value={query}
+          onChange={(e) => {
+            setQuery(e.target.value);
+            handleSearch(e.target.value); // Call API dynamically
+          }}
+          className={styles.inputSearch}
+          style={{
+            width: "100%",
+            padding: "10px 40px",
+            border: "1px solid #ccc",
+            borderRadius: "5px",
+          }}
+        />
+      </div>
 
-                {results.length > 0 && (
-                  <ul
-                    style={{
-                      position: "absolute",
-                      top: "71px",
-                      right: "0",
-                      width: "55%",
-                      maxHeight: "200px",
-                      overflow: "auto",
-                      backgroundColor: "white",
-                      listStyle: "none",
-                      padding: "10px",
-                      margin: "0",
-                      zIndex: "100",
-                    }}
-                  >
-                    {results.map((place, index) => (
-                      <li
-                        key={index}
-                        style={{
-                          cursor: "pointer",
-                          padding: "5px 10px",
-                          borderBottom:
-                            index !== results.length - 1
-                              ? "1px solid #eee"
-                              : "none",
-                        }}
-                        onClick={() => handleSelectPlace(place)}
-                      >
-                        {place.display_name}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
+      {/* Results Dropdown */}
+      {results.length > 0 && (
+        <ul
+          style={{
+            position: "absolute",
+            top: "71px",
+            right: "0",
+            width: "55%",
+            maxHeight: "200px",
+            overflow: "auto",
+            backgroundColor: "white",
+            listStyle: "none",
+            padding: "10px",
+            margin: "0",
+            zIndex: "100",
+            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+          }}
+        >
+          {results.map((place, index) => (
+            <li
+              key={index}
+              style={{
+                cursor: "pointer",
+                padding: "8px 10px",
+                borderBottom:
+                  index !== results.length - 1 ? "1px solid #eee" : "none",
+              }}
+              onClick={() => handleSelectPlace(place)}
+            >
+              {place.description || place.display_name || `Place ${index + 1}`}
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {/* Error Message */}
+      {error && (
+        <p style={{ color: "red", position: "absolute", top: "100px" }}>
+          {error}
+        </p>
+      )}
+    </div>
             </div>
           </div>
         </div>

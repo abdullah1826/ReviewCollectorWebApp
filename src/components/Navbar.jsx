@@ -59,7 +59,10 @@ const Navbar = () => {
                 >
                   <span
                     className={styles.iconText}
-                    style={{ color: pathname === "/profile" && "#11cb55" }}
+                    style={{
+                      color: pathname === "/profile" && "#11cb55",
+                      fontWeight: pathname === "/profile" && "500",
+                    }}
                   >
                     <IoPersonSharp /> Profile
                   </span>
@@ -74,7 +77,11 @@ const Navbar = () => {
                 >
                   <span
                     className={styles.iconText}
-                    style={{ color: pathname === "/survey" && "#11cb55" }}
+                    style={{
+                      color: pathname === "/survey" && "#11cb55",
+                      fontWeight: pathname === "/survey" && "500",
+                    }}
+                    
                   >
                     <RiSurveyFill /> Survey
                   </span>
@@ -89,7 +96,10 @@ const Navbar = () => {
                 >
                   <span
                     className={styles.iconText}
-                    style={{ color: pathname === "/dashboard" && "#11cb55" }}
+                    style={{
+                      color: pathname === "/dashboard" && "#11cb55",
+                      fontWeight: pathname === "/dashboard" && "500",
+                    }}
                   >
                     <IoAnalyticsSharp /> Analytics
                   </span>
@@ -104,7 +114,10 @@ const Navbar = () => {
                 >
                   <span
                     className={styles.iconText}
-                    style={{ color: pathname === "/setting" && "#11cb55" }}
+                    style={{
+                      color: pathname === "/setting" && "#11cb55",
+                      fontWeight: pathname === "/setting" && "500",
+                    }}
                   >
                     <IoIosSettings /> Setting
                   </span>
