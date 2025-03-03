@@ -9,7 +9,6 @@ const AboutApp = () => {
   return (
     <div className={styles.containerFluid}>
       <Navbar />
-      <hr />
       <div className="container">
         <div className="row">
           <button className={styles.backbtn} onClick={handleBack}>

@@ -1,46 +1,63 @@
 .body {
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    background-color: #00C849;
     height: 100vh;
     margin: 0;
+    padding: 0;
 }
-
+.col-md-6{
+    margin: 0;
+    padding: 0;
+}
 /* Container for the sign-up box */
 .signupcontainer {
-    padding: 2rem;
     width: 100%;
-    max-width: 500px;
+    height: 100%;
+    /* max-width: 500px; */
     text-align: center;
 }
 
 /* Title and subtitle styling */
 .signupcontainer h1 {
-    color: #36D06E;
-    font-size: 25px;
+    color: white;
+    font-size: 77px;
     margin-bottom: 0.5rem;
     font-family: 'Poppins';
-    font-weight: bold;
+    font-weight: 700;
+    margin: 0;
+}
+.textinfo{
+    padding-top: 40px;
+}
+.imageinfo{
+    position: absolute;
+    bottom: 0;
+}
+.form{
+    padding-top: 50px;
+    width: 75%;
 }
 
 .signupcontainer h2 {
-    font-size: 1.2rem;
-    color: #555;
+    font-size: 58px;
+    color: #00C849;
     margin-bottom: 2rem;
     font-family: Coolvetica;
-    font-size: 35px;
+    font-size: 37px;
     font-family: 'Poppins';
     font-weight: 600;
+    margin: 0;
+    margin-bottom: 10px;
 
 }
 .signupcontainer p{
     font-family: 'Poppins';
-    font-size: 20px;
+    font-size: 13px;
     font-weight: 400;
-    line-height: 36px;
    color: #3D3D3D;
-   margin-top: 0px;
-   padding-top: 0px;
+
 }
 
 /* Input field styling */
@@ -50,31 +67,44 @@
      
     width: 100%;
     margin-bottom: 15px;
-    height: 80px;
+    height: 65px;
     opacity: 0px;
     background-color: #F3F3F3;
-    border-radius: 18px;
-    border: 1px solid #C5C5C5;
+    border-radius: 10px;
+    /* border: 1px solid #C5C5C5; */
     padding: 0px 20px;
     font-family: 'Poppins';
     outline: none;
+    border: none;
 }
-
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+  }
+  
 /* Sign Up button styling */
 .signupcontainer button {
     background-color: #00C849;
     color: white;
-    width: 90%;
-    height: 70px;
-    border-radius: 40px;
-    /* border: none; */
+    width: 70%;
+    height: 60px;
+    border: none;
+    margin-top: 50px;
+    border-radius: 10px;
     cursor: pointer;
     font-family: Coolvetica;
-    font-size: 21px;
+    font-size: 18px;
     font-weight: 600;
     font-family: 'Poppins';
     outline: none;
 }
+.signupcontainer input::placeholder{
+    color: #A2A2A2;
+}
+
 .leftImage{
     position: absolute;
     left: 0;
@@ -91,6 +121,12 @@
         width: 100%;
         max-width: 500px;
         text-align: center;
+    }
+    .form{
+        width: 100%;
+    }
+    .banner{
+        display: none;
     }
 
   }

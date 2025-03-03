@@ -12,6 +12,7 @@ import ManageProfile from './Pages/ManageProfile';
 import AboutApp from './Pages/AboutApp';
 import PrivateRoute from './components/PrivateRoute';
 import LoginRoute from './components/LoginRoute';
+import PrivacyPolicy from './Pages/PrivacyPolicy';
 
 function App() {
   const [user, setUser] = useState(null); 
@@ -95,6 +96,14 @@ function App() {
       element: (
         <PrivateRoute user={user}>
           <AboutApp />
+        </PrivateRoute>
+      ),
+    },
+    {
+      path: '/privacyPolicy',
+      element: (
+        <PrivateRoute user={user}>
+          <PrivacyPolicy />
         </PrivateRoute>
       ),
     },

@@ -1,8 +1,12 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import styles from "../Authentication/Signin.module.css";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
-import collector from "../assets/images/collector.png";
+import collector from "../assets/images/reviewCollectorWhite.png";
+import signinImage from "../assets/images/signinImage.png";
+import emailicon from "../assets/icons/email.png";
+import passwordicon from "../assets/icons/password.png";
+
 import { IoEyeSharp } from "react-icons/io5";
 import { IoEyeOffSharp } from "react-icons/io5";
 import { useLocation } from "react-router-dom";
@@ -16,7 +20,7 @@ const Signin = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const handleSignin = async (e) => {
     e.preventDefault(); // Prevent form submission reload
     const auth = getAuth();
@@ -27,7 +31,11 @@ const Signin = () => {
     }
 
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       const User = userCredential.user;
       localStorage.setItem("useruid", User.uid);
       localStorage.setItem("parentid", User.uid);
@@ -48,11 +56,11 @@ const Signin = () => {
     }
   };
 
-  const signup = ()=>{
-    navigate('/signup');
-  }
+  const signup = () => {
+    navigate("/signup");
+  };
   const forgotPassword = () => {
-    navigate('/forgotPassword'); // Navigate to ForgotPassword page
+    navigate("/forgotPassword"); // Navigate to ForgotPassword page
   };
   useEffect(() => {
     if (message) {
@@ -65,60 +73,149 @@ const Signin = () => {
   }, [message]);
 
   return (
-    <div className="container-fluid">
+    <div className="container-fluid vh-100">
       <div className={styles.body}>
         <div className={styles.signupcontainer}>
-          <h1>
-            <img src={collector} width="55px" height="55px" alt="Collector" />
-            Review Collector
-          </h1>
-          <h2>Sign In</h2>
-          <p style={{fontSize:"17px"}}>Login to your Account</p>
-          {error && <div style={{ color: "red", marginBottom: "10px" }}>{error}</div>}
-
-          <form onSubmit={handleSignin}>
-            <input
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-            <div style={{ position: 'relative', width: '100%' }}>
-              <input
-                type={showPassword ? "text" : "password"}
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                style={{
-                  width: '100%',
-                  paddingRight: '40px', // Add space for the icon
-                  padding: '10px',
-                  fontSize: '16px',
-                }}
-              />
-              <span
-                onClick={() => setShowPassword(!showPassword)}
-                style={{
-                  position: 'absolute',
-                  top: '50%',
-                  right: '10px',
-                  transform: 'translateY(-50%)',
-                  cursor: 'pointer',
-                  color: '#00c849',
-                }}
-              >
-                {showPassword ? <IoEyeOffSharp size={20} /> : <IoEyeSharp size={20} />}
-              </span>
+          <div className="row h-100">
+            {/* Left Section: Login Form */}
+            <div className="col-md-6 d-flex align-items-center justify-content-center bg-white">
+              <div className={styles.form}>
+                <h2 className="fw-bold mb-3">Log in</h2>
+                <p style={{ fontSize: "17px", marginBottom: "60px" }}>
+                  Login to your Account
+                </p>
+                {error && (
+                  <div style={{ color: "red", marginBottom: "10px" }}>
+                    {error}
+                  </div>
+                )}
+                <form onSubmit={handleSignin}>
+                  <div style={{ position: "relative", width: "100%" }}>
+                    <img
+                      src={emailicon}
+                      alt="Email Icon"
+                      style={{
+                        position: "absolute",
+                        left: "10px",
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        width: "22px",
+                        height: "22px",
+                      }}
+                    />
+                    <input
+                      type="email"
+                      placeholder="Email"
+                      value={email}
+                      className="form-control mb-3"
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                      style={{
+                        paddingLeft: "40px", // Add space for the icon
+                      }}
+                    />
+                  </div>
+                  <div style={{ position: "relative", width: "100%" }}>
+                    <img
+                      src={passwordicon}
+                      alt="Email Icon"
+                      style={{
+                        position: "absolute",
+                        left: "10px",
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        width: "22px",
+                        height: "22px",
+                      }}
+                    />
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                      style={{
+                        paddingLeft: "40px", // Add space for the icon
+                      }}
+                      className="form-control mb-3"
+                    />
+                    <span
+                      onClick={() => setShowPassword(!showPassword)}
+                      style={{
+                        position: "absolute",
+                        top: "54%",
+                        right: "15px",
+                        transform: "translateY(-50%)",
+                        cursor: "pointer",
+                        color: "#00c849",
+                      }}
+                    >
+                      {showPassword ? (
+                        <IoEyeOffSharp size={20} />
+                      ) : (
+                        <IoEyeSharp size={20} />
+                      )}
+                    </span>
+                  </div>
+                  <p className="text-end mb-3">
+                    <a
+                      onClick={forgotPassword}
+                      style={{
+                        float: "right",
+                        cursor: "pointer",
+                        fontWeight: "500",
+                        fontSize: "15px",
+                      }}
+                      className="text-success text-decoration-none"
+                    >
+                      Forgot Password?
+                    </a>
+                  </p>
+                  <button
+                    type="submit"
+                    className="btn w-100 text-white"
+                    style={{ backgroundColor: "#1ACB5B" }}
+                  >
+                    Log In
+                  </button>
+                  <p
+                    className="text-center mt-3"
+                    style={{
+                      textDecoration: "none",
+                      fontSize: "16px",
+                      fontWeight: "600",
+                    }}
+                  >
+                    Don,t have an account?{" "}
+                    <span
+                      onClick={signup}
+                      style={{ cursor: "pointer", color: "#13cb56" }}
+                    >
+                      Sign Up
+                    </span>
+                  </p>
+                </form>
+              </div>
             </div>
-            <p style={{ float: "right", fontSize: "14px", fontWeight: "600",cursor:'pointer' }} onClick={forgotPassword}>
-              Forgot Password?
-            </p>
-            <button type="submit">Sign In</button>
-            <p style={{ textDecoration: "underline",paddingTop:'15px',fontSize:'15px' }}>Dont have an account? <span onClick={signup} style={{cursor:'pointer',color:'#13cb56'}}>Sign Up</span></p>
-          </form>
-                  
+
+            {/* Right Section: Banner */}
+            <div
+              className={`col-md-6 ${styles.banner}`}
+              style={{
+                background: "linear-gradient(180deg, #1ACB5B 0%, #0D622C 100%)",
+                margin: 0,
+                padding: 0,
+              }}
+            >
+              <div className={styles.textinfo}>
+                <h1>Welcome to</h1>
+                <img src={collector} width="350px" alt="Collector" />
+              </div>
+              <div className={styles.imageinfo}>
+                <img src={signinImage} width="100%" alt="Collector" />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -126,4 +223,3 @@ const Signin = () => {
 };
 
 export default Signin;
-

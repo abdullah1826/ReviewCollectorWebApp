@@ -1,14 +1,23 @@
 import Navbar from "../components/Navbar";
 import styles from "../Pages/Setting.module.css";
-import information from "../assets/images/Information.png";
-import folder from "../assets/images/Folder.png";
-import del from "../assets/images/Delete.png";
-import resetPassword from "../assets/images/ResetPassword.png";
+import { RiLockPasswordFill } from "react-icons/ri";
+import { useState } from "react";
+import { IoEyeSharp } from "react-icons/io5";
+import { IoEyeOffSharp } from "react-icons/io5";
+
+import { MdEdit } from "react-icons/md";
+import { BsFillInfoCircleFill } from "react-icons/bs";
+
 import { AiOutlineLogout } from "react-icons/ai";
+import passwordicon from "../assets/icons/password.png";
+
+
 import profilepic from "../assets/images/profileP.png";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import { FaRegEdit } from "react-icons/fa";
+import { IoIosArrowForward } from "react-icons/io";
+import { MdPrivacyTip } from "react-icons/md";
+
 
 import {
   getAuth,
@@ -26,7 +35,7 @@ import {
   equalTo,
   get,
 } from "firebase/database";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
 const Profile = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -34,6 +43,8 @@ const Profile = () => {
   const [userData, setUserData] = useState();
   const navigate = useNavigate();
   const auth = getAuth();
+const [showPassword, setShowPassword] = useState(false);
+
 
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
@@ -110,36 +121,36 @@ const Profile = () => {
   };
   const handleDeleteAccount = async (e) => {
     e.preventDefault();
-
+  
     const user = auth.currentUser;
     const db = getDatabase();
-
+  
     if (!user) {
       Swal.fire({
         title: "No User Logged In",
         text: "Please log in to delete your account.",
         icon: "warning",
         customClass: {
-          confirmButton: styles.confirmButton, // Green button for info dialog
+          confirmButton: styles.confirmButton,
         },
       });
       return;
     }
-
+  
     if (!password) {
       Swal.fire({
         title: "Password Required",
         text: "Please enter your password to delete the account.",
         icon: "warning",
         customClass: {
-          confirmButton: styles.confirmButton, // Green button for info dialog
+          confirmButton: styles.confirmButton,
         },
       });
       return;
     }
-
+  
     const credential = EmailAuthProvider.credential(user.email, password);
-
+  
     try {
       // SweetAlert confirmation before deletion
       const result = await Swal.fire({
@@ -150,92 +161,112 @@ const Profile = () => {
         confirmButtonText: "Yes, delete it!",
         cancelButtonText: "No, keep my account",
         customClass: {
-          confirmButton: styles.confirmButton, // Green button for info dialog
+          confirmButton: styles.confirmButton,
         },
       });
-
+  
       if (!result.isConfirmed) {
         Swal.fire({
           title: "Canceled",
           text: "Your account was not deleted.",
           icon: "info",
           customClass: {
-            confirmButton: styles.confirmButton, // Green button for info dialog
+            confirmButton: styles.confirmButton,
           },
         });
-        return; // Exit if canceled
+        return;
       }
-
-      // Reauthenticate the user with the entered password
+  
+      // Reauthenticate the user
       await reauthenticateWithCredential(user, credential);
-
+  
       const userId = user.uid;
       const tables = ["Reviews", "Analytic"];
-
-      // Delete data from tables
-      const deletePromises = tables.map((table) => {
-        const tableRef = ref(db, table);
-        const tableQuery = query(
-          tableRef,
-          orderByChild("userid"),
-          equalTo(userId)
-        );
-
-        return get(tableQuery).then((snapshot) => {
-          if (snapshot.exists()) {
-            const data = snapshot.val();
-            const deleteUserDataPromises = Object.keys(data).map((key) =>
-              remove(ref(db, `${table}/${key}`))
-            );
-            return Promise.all(deleteUserDataPromises);
-          }
-          return Promise.resolve(); // No data exists in this table
-        });
-      });
-
-      // Delete user data from the User table
+      let dbDeletionSuccess = false;
+      let authDeletionSuccess = false;
+  
+      // Check if the user exists in the database
       const userRef = ref(db, `User/${userId}`);
-      const deleteUserDataPromise = remove(userRef);
-
-      // Wait for all deletions to complete
-      await Promise.all([...deletePromises, deleteUserDataPromise]);
-
-      // Delete the Firebase Authentication account
-      await deleteUser(user);
-
-      // Show success SweetAlert
-      Swal.fire({
-        title: "Account Deleted!",
-        text: "Your account and data have been deleted successfully.",
-        icon: "success",
-        customClass: {
-          confirmButton: styles.confirmButton, // Green button for info dialog
-        },
-      });
-
-      // Clear local storage and redirect
-      localStorage.clear();
-      closeModal();
-      navigate("/signin"); // Redirect to sign-in page
-    } catch (error) {
-      // Check if the error is related to wrong password
-      if (error.code === "auth/requires-recent-login") {
-        // Show error SweetAlert for wrong password
-        Swal.fire({
-          title: "Authentication Failed",
-          text: "Your session has expired. Please log in again and try deleting your account.",
-          icon: "error",
+      const userSnapshot = await get(userRef);
+  
+      if (userSnapshot.exists()) {
+        // Delete data from other tables
+        const deletePromises = tables.map((table) => {
+          const tableRef = ref(db, table);
+          const tableQuery = query(tableRef, orderByChild("userid"), equalTo(userId));
+  
+          return get(tableQuery).then((snapshot) => {
+            if (snapshot.exists()) {
+              const data = snapshot.val();
+              const deleteUserDataPromises = Object.keys(data).map((key) =>
+                remove(ref(db, `${table}/${key}`))
+              );
+              return Promise.all(deleteUserDataPromises);
+            }
+            return Promise.resolve();
+          });
         });
+  
+        // Delete user data from the User table
+        await Promise.all([...deletePromises, remove(userRef)]);
+        dbDeletionSuccess = true;
+      }
+  
+      // Try deleting the authentication account
+      try {
+        await deleteUser(user);
+        authDeletionSuccess = true;
+      } catch (authError) {
+        if (authError.code === "auth/requires-recent-login") {
+          Swal.fire({
+            title: "Authentication Failed",
+            text: "Your session has expired. Please log in again and try deleting your account.",
+            icon: "error",
+            customClass: {
+              confirmButton: styles.confirmButton,
+            },
+          });
+          return;
+        }
+      }
+  
+      // Show final success message based on what was deleted
+      if (dbDeletionSuccess || authDeletionSuccess) {
+        Swal.fire({
+          title: "Account Deleted!",
+          text: "Your account and data have been deleted successfully.",
+          icon: "success",
+          customClass: {
+            confirmButton: styles.confirmButton,
+          },
+        });
+  
+        // Clear local storage and redirect
+        localStorage.clear();
+        closeModal();
+        navigate("/signin");
       } else {
-        // Show general error message
         Swal.fire({
           title: "Error",
-          text: `Failed to delete account and data: ${error.message}`,
+          text: "Failed to delete the account. Please try again later.",
           icon: "error",
+          customClass: {
+            confirmButton: styles.confirmButton,
+          },
         });
       }
+    } catch (error) {
+      Swal.fire({
+        title: "Error",
+        text: "Failed to delete account. Incorrect password.",
+        icon: "error",
+        customClass: {
+          confirmButton: styles.confirmButton,
+        },
+      });
     }
   };
+  
   const handleProfileClick = () => {
     navigate("/manageProfile");
   };
@@ -263,7 +294,9 @@ const Profile = () => {
       }
     });
   };
-
+  const privacyPolicy =()=>{
+    navigate('/privacyPolicy');
+  }
   useEffect(() => {
     const uid = localStorage.getItem("useruid");
     if (!uid) {
@@ -290,9 +323,8 @@ const Profile = () => {
   }, []);
 
   return (
-    <div className={styles.containerFluid} style={{ marginBottom: "20px" }}>
+    <div className={styles.containerFluid}>
       <Navbar />
-      <hr />
       <div className="container">
         {isOpen && (
           <div className={styles.overlay}>
@@ -303,14 +335,48 @@ const Profile = () => {
                 be undone.
               </p>
               <form className={styles.form} onSubmit={handleDeleteAccount}>
-                <input
-                  className={styles.input}
-                  placeholder="Enter Your Password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
+                <div style={{ position: "relative", width: "100%" }}>
+                                  <img
+                                    src={passwordicon}
+                                    alt="Email Icon"
+                                    style={{
+                                      position: "absolute",
+                                      left: "10px",
+                                      top: "40%",
+                                      transform: "translateY(-50%)",
+                                      width: "22px",
+                                      height: "22px",
+                                    }}
+                                  />
+                                  <input
+                                    type={showPassword ? "text" : "password"}
+                                    placeholder="Password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    required
+                                    style={{
+                                      paddingLeft: "40px", // Add space for the icon
+                                    }}
+                                    className="form-control mb-3"
+                                  />
+                                  <span
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    style={{
+                                      position: "absolute",
+                                      top: "44%",
+                                      right: "15px",
+                                      transform: "translateY(-50%)",
+                                      cursor: "pointer",
+                                      color: "#00c849",
+                                    }}
+                                  >
+                                    {showPassword ? (
+                                      <IoEyeOffSharp size={20} />
+                                    ) : (
+                                      <IoEyeSharp size={20} />
+                                    )}
+                                  </span>
+                                </div>
                 <div className={styles.buttonContainer}>
                   <button type="submit" className={styles.submitButton}>
                     Confirm Delete
@@ -335,11 +401,12 @@ const Profile = () => {
                 <div style={{ position: "relative" }}>
                   <img
                     src={userData?.profileUrl || profilepic}
-                    width="110px"
-                    height="110px"
+                    width="130px"
+                    height="132px"
                     alt="Profile"
                   />
-                  <FaRegEdit
+                  <MdEdit
+
                     className={styles.editIcon}
                     onClick={handleProfileClick}
                     style={{ cursor: "pointer" }}
@@ -362,49 +429,62 @@ const Profile = () => {
             </div>
           </div>
         </div>
-        <div className="row">
-          <div className="col-md-4">
-            <div
-              className={`${styles.settings} ${styles.hoverEffect}`}
-              onClick={about}
-            >
-              <div>
-                <img src={information} width="60" alt="About App" />
-                <p>About App</p>
+        <div className={styles.settingSection}>
+        <div className="row g-3">
+        <div className="col-md-6">
+          <div
+            className={`${styles.settings} ${styles.hoverEffect}`}
+            onClick={about}
+          >
+            <div className="d-flex align-items-center justify-content-between">
+              <div className="d-flex align-items-center">
+              <BsFillInfoCircleFill className={styles.iconStyle}/>
+
+                <p className={`${styles.title} ms-3 mb-0`}>About</p>
               </div>
-            </div>
-          </div>
-          <div className="col-md-4">
-            <div className={`${styles.settings} ${styles.hoverEffect}`}>
-              <div>
-                <img src={folder} width="60" alt="Privacy Policy" />
-                <p>Privacy Policy</p>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-4">
-            <div
-              className={`${styles.settings} ${styles.hoverEffect}`}
-              onClick={handleResetPassword}
-            >
-              <div>
-                <img src={resetPassword} width="60" alt="Reset Password" />
-                <p>Reset Password</p>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-4">
-            <div
-              className={`${styles.settings} ${styles.hoverEffect}`}
-              onClick={openModal}
-            >
-              <div>
-                <img src={del} width="70" alt="Delete Account" />
-                <p>Delete Account</p>
-              </div>
+              <span><IoIosArrowForward />
+              </span>
             </div>
           </div>
         </div>
+
+        {/* Privacy Policy */}
+        <div className="col-md-6">
+          <div className={`${styles.settings} ${styles.hoverEffect}`} onClick={privacyPolicy}>
+            <div className="d-flex align-items-center justify-content-between">
+              <div className="d-flex align-items-center">
+              <MdPrivacyTip className={styles.iconStyle}/>
+                <p className={`${styles.title} ms-3 mb-0`}>Privacy Policy</p>
+              </div>
+              <span><IoIosArrowForward />
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Second Row with One Column */}
+      <div className={`row g-3  ${styles.second}`}>
+      <div className="col-md-6">
+      <div
+        className={`${styles.settings}`}
+        onClick={handleResetPassword}
+      >
+        <div className="d-flex align-items-center justify-content-between">
+          <div className="d-flex align-items-center">
+            <RiLockPasswordFill className={styles.iconStyle} />
+            <p className={`${styles.title} ms-3 mb-0`}>Reset Password</p>
+          </div>
+          <span>
+            <IoIosArrowForward />
+          </span>
+        </div>
+      </div>
+    </div>
+      </div>
+      <h3 className="text-center" onClick={openModal} style={{marginTop:"40px",fontWeight:"600",fontSize:"20px",color:"red",textDecoration:'underline',cursor:"pointer"}}>Delete Account</h3>
+        </div>
+    
       </div>
     </div>
   );

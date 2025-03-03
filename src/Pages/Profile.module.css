@@ -4,8 +4,7 @@
 }
 
 .hoverEffect:hover {
-  transform: translateY(-5px); /* Moves the div slightly upward */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds a shadow effect */
+  border: 2px solid #09C950;
 }
 
 .hoverEffect:hover img {
@@ -24,14 +23,15 @@
 .profile{
   position: absolute;
   top: 195px;
-  left: 27px;
+  left: 35px;
 }
   
   .coverImage img {
     width: 100%;
     height: 245px;
     object-fit: cover;
-    border-radius: 10px;
+    border-radius: 25px;
+    border: 3px solid #09C950;
   }
   
   .profileImage {
@@ -80,12 +80,12 @@
     text-align: center;
     justify-content: center;
     display: flex;
-    background-color: #EFEFEF;
-    color: rgba(0, 0, 0, 0.699);
+    background-color: #09C950;
+    color: white;
     border: none;
     padding: 10px 20px;
     gap: 4px;
-    border-radius: 5px;
+    border-radius: 10px;
     width: 100%;
     cursor: pointer;
   }
@@ -96,19 +96,22 @@
   .actionButtons button {
     width: 100%;
     height: 153px;
-    background-color: #EFEFEF;
-    border: 1px solid #ddd;
+    background-color: white;
+    border: none;
+    /* border: 1px solid #ddd; */
     margin: 0 5px;
-    border-radius: 5px;
+    border-radius: 10px;
+    box-shadow: -1px 4px 16px 6px #0000000F;
     cursor: pointer;
   }
   .actionButtons button p {
     font-size: 20px;
     font-family: 'poppins';
+    padding-bottom: 10px;
   }
   .actionButtons button .icon {
-    width: 56px;
-    height: 56px;
+    width: 52px;
+    height: 52px;
   }
  .addprofile{
   position: absolute;
@@ -132,13 +135,17 @@
  }
   
   .listGroup {
-    background-color: #FAF7F7;
+    background-color: white;
     padding: 0;
+    box-shadow: -1px 4px 16px 6px #0000000F;
+    /* box-shadow: 1px 1px 20px -14px black; */
     border-radius: 29px;
     text-align: center;
-    border: 1px solid #A0A0A0;
+    /* border: 1px solid #A0A0A0; */
     margin-top: 30px;
     cursor: pointer;
+    padding: 10px 20px;
+
 }
 input[type=radio] {
   box-sizing: border-box;

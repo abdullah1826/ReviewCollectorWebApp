@@ -20,22 +20,61 @@
 .hoverEffect:hover p {
   transition: color 0.3s ease;
 }
+.searchIcon{
+  padding: 14px;
+  background-color: #1ACB5B;
+  display: flex;
+  align-items: center;
+  
+}
 
 .statusUnsatisfactory {
-    background-color: #f8d7da;
-    border-radius: 10px;
-    color: #721c24;
-  }
+  padding: 0.5rem;
+  margin-bottom: 0.25rem;
+  border-radius: 10px;
+  text-align: center;
+  color: white;
+}
+
+.unsatisfactory {
+  background-color: #FF9E9E;
+  color: #F60D1B;
+}
+
+.fair {
+  background-color: #FFEFC7;
+  color: #F0B61F;
+}
+
+.excellent {
+  background-color: #BFFFBE;
+  color: #1ACB5B;
+}
+
+.good {
+  background-color: #D8FFB0;
+  color: #61B80B;
+}
+
   .starRating span {
     color: gold;
   }
-  
+  .searchBtns{
+    border-color: #1ACB5B;
+    color: #1ACB5B;
+  }
   .cardbody {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border: 3px solid #DEDEDE;
-    border-radius: 25px;
+    display: flex
+    ;
+        /* justify-content: space-between; */
+        /* align-items: center; */
+        /* border: 3px solid #DEDEDE; */
+        flex-direction: column;
+        border-radius: 25px;
+        width: 100%;
+        border: none;
+        box-shadow: 0px 6.83px 36.66px 0px #0000000F;
+        height: 100%;
   }
   .search input{
     border: 3px solid #DEDEDE;
@@ -91,7 +130,7 @@
     font-size: 28px;
   }
   .heading{
-    font-size: 20px;
+    font-size: 22px;
     margin-bottom: 1px;
   }
   .active {
@@ -104,7 +143,7 @@
   
   @media only screen and (max-width: 400px) {
     .heading{
-      font-size: 15px;
+      font-size: 20px;
     }
     .statusUnsatisfactory {
       background-color: #f8d7da;
@@ -113,6 +152,22 @@
       text-align: center;
       width: 82px;
       color: #721c24;
+  }
+  .searchIcon{
+    padding: 7px;
+    background-color: #1ACB5B;
+    display: flex;
+    align-items: center;
+    
+  }
+  .cardbody {
+    display: flex;
+        flex-direction: column;
+        border-radius: 25px;
+        width: 100%;
+        border: none;
+        box-shadow: 0px 6.83px 36.66px 0px #0000000F;
+        height: 100%;
   }
 
   }

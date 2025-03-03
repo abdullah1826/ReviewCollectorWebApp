@@ -56,7 +56,7 @@
 
 .submitButton {
   padding: 10px 20px;
-  background-color: #ff4d4d;
+  background-color: red;
   color: #ffffff;
   border: none;
   border-radius: 5px;
@@ -75,7 +75,7 @@
 }
 
 .submitButton:hover {
-  background-color: #e63939;
+  background-color: #d80d0d;
 }
 
 .cancelButton:hover {
@@ -102,21 +102,20 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds a shadow effect */
   }
   
-  .hoverEffect:hover img {
-    transform: scale(1.1); /* Slight zoom effect on the image */
-    transition: transform 0.3s ease;
+  .hoverEffect:hover span {
+    color: white;
+
   }
   
-  .hoverEffect p {
-    margin: 0;
-    color: #333;
-  }
+  
   
   .hoverEffect:hover p {
+    color: #fff;
+
     transition: color 0.3s ease;
   }
   .logoutButton {
-    background-color: #e63946;
+    background-color: #1acb5b;
     color: #fff;
     border: none;
     border-radius: 25px;
@@ -130,11 +129,11 @@
   }
   
   .logoutButton:hover {
-    background-color: #d62839;
+    background-color: #08bc4a;
   }
 .userDetails {
-    margin-top: 10px;
-    margin-left: 10px;
+  margin-top: 35px;
+  margin-left: 5px;
   }
   
   .userName {
@@ -148,16 +147,17 @@
     color: #666;
   }
 .logout{
-    height: 175px;
-    background-color: #F6F3F3;
-    border: 3px solid #DEDEDE;
-    border-radius: 25px;
-    justify-content: space-between;
-    display: flex;
-    margin-top: 6px;
+  height: 175px;
+  background-color: white;
+  /* border: 3px solid #DEDEDE; */
+  box-shadow: 0px 4px 13.66px 0px #0000000F;
+  border-radius: 25px;
+  justify-content: space-between;
+  display: flex
 ;
-    align-items: center;
-    padding: 0px 30px;
+  margin-top: 6px;
+  align-items: center;
+  padding: 0px 12px;
 }
 .profile{
     display: flex;
@@ -178,26 +178,45 @@
     text-align: center;
 }
 .profile img{
-    border-radius: 23px;
-    border: 5px solid #FFFFFF;
-    object-fit: cover;
+  border-radius: 72px;
+  border: 2px solid #1acb5b;
+  object-fit: cover;
 }
-.settings{
-    width: 100%;
-    height: 170px;
-    background-color: aqua;
-    margin-top: 20px;
-    border-radius: 25px;
-    border: 3px solid #DEDEDE;
-    background-color: #F6F3F3;
-    display: flex;
-    padding: 20px;
-    cursor: pointer;
-    align-items: center;
+.settings {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
 }
+
+.settings:hover {
+  background-color: #2ccf68;
+  color: white;
+  /* box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); */
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 500;
+  color: #000000;
+}
+.settingSection{
+  padding-top: 70px;
+}
+
+.hoverEffect {
+  transition: transform 0.2s;
+}
+
+.hoverEffect:hover {
+  transform: translateY(-5px);
+}
+
 .settings p{
-    font-size: 20px;
-    margin-top: 20px;
+    font-size: 19px;
+    color: #1acb5b;
     font-family: "poppins";
 }
 .profile button{
@@ -209,94 +228,158 @@
   bottom: 0px;
   background-color: #ffffff;
   padding: 3px;
-  position: absolute;
-  /* top: 83%; */
-  border-radius: 9px;
+  border-radius: 20px;
   padding: -11px;
-  font-size: 22px;
-  /* left: 95%; */
+  font-size: 26px;
+  /* border: 2px solid #1acb5b; */
+  background: white;
+  color: black;
+  font-weight: 700;
   transform: translate(-50%, -50%);
 }
+.second{
+  margin-top: 30px;
+}
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  /* General Layout Adjustments */
+  .profile{
+    display: flex;
+    flex-direction: column;
+}
+.profile button{
+  border: none;
+  padding: 10px 12px;
+  border-radius: 10px;
+}
+.userDetails {
+  margin-top: 0px;
+  margin-left: 0px;
+  }
+  /* Modal Adjustments */
+  .modal {
+    width: 90%;
+    max-width: 400px;
+    padding: 15px;
+  }
 
-@media only screen and (max-width: 400px) {
-    body {
-      /* background-color: lightblue; */
-    }
-    .profile{
-        flex-direction: column;
-    }
-    .userDetails{
-      margin-top: 0;
-    }
-    .logout{
-        height: 185px;
-        border: 3px solid #DEDEDE;
-        border-radius: 25px;
-        justify-content: space-between;
-        display: flex;
-        align-items: center;
-        padding: 0px 10px;
-    }
-    .editIcon{
-      bottom: 0px;
-      background-color: #ffffff;
-      padding: 3px;
-      position: absolute;
-      /* top: 83%; */
-      border-radius: 9px;
-      padding: -11px;
-      font-size: 22px;
-      /* left: 95%; */
-      transform: translate(-50%, -50%);
-    }
-    
-    
-    .profile img{
-       width: 90px; 
-       height: 90px;
-       object-fit: cover;
-    }
-    .navbar-brand {
-        display: inline-block;
-        padding-top: .3125rem;
-        padding-bottom: .3125rem;
-        /* margin-right: 1rem; */
-        font-size: 1.25rem;
-        line-height: inherit;
-        white-space: nowrap;
-    }
-    .profile p{
-        display: flex;
-        align-items: center;
-        font-size: 13px;
-        text-align: center;
-    }
-    .profile button {
-        border: none;
-        /* width: 147px; */
-        /* background-color: #E9E9E9; */
-        padding: 7px 10px;
-        border-radius: 13px;
-    }
-    .settings {
-        width: 100%;
-        /* height: 210px; */
-        background-color: aqua;
-        margin-top: 20px;
-        border-radius: 25px;
-        border: 3px solid #DEDEDE;
-        background-color: #F6F3F3;
-        display: flex;
-        padding: 15px;
-        align-items: center;
-    }
-    .settings img{
-        width: 60px;
-    }
-    .settings p {
-        font-size: 20px;
-        margin-top: 30px;
-        font-family: "poppins";
-    }
+  .modalTitle {
+    font-size: 18px;
+    text-align: center;
+  }
+
+  .modalText {
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 15px;
+  }
+
+  .input {
+    width: 100%;
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .buttonContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .submitButton,
+  .cancelButton {
+    font-size: 14px;
+    width: 100%;
+    padding: 10px;
+  }
+
+  /* Profile Section */
+  .profile img {
+    width: 92px;
+    height: 90px;
 
   }
+
+  .userDetails p {
+    font-size: 14px;
+    text-align: start;
+  }
+
+  .logoutButton {
+    font-size: 11px;
+    width: 100%;
+  }
+
+  /* Settings Section */
+  .settings {
+    padding: 12px;
+    margin-bottom: 10px;
+  }
+
+  .settings img {
+    width: 30px;
+    height: 30px;
+  }
+
+  .title {
+    font-size: 14px;
+  }
+
+  .settingSection {
+    margin-top: 0px;
+    padding-top: 10px;
+  }
+.second{
+  margin-top: 0;
+}
+  /* Delete Account Text */
+  .text-center {
+    font-size: 16px;
+    margin-top: 30px;
+  }
+}
+.iconStyle {
+  padding-right: 10px;
+  font-size: 35px;
+  color: #1acb5b;
+  transition: color 0.3s ease;
+}
+
+.iconStyle:hover {
+  color: white;
+}
+.settings {
+  padding: 13px;
+  border-radius: 8px;
+  margin: 12px 0px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.iconStyle {
+  font-size: 35px;
+  color: #1acb5b;
+  transition: color 0.3s ease;
+}
+
+.title {
+  font-size: 16px;
+  color: #000; /* Default text color */
+  transition: color 0.3s ease;
+}
+
+.settings span svg {
+  color: #1acb5b; /* Default arrow icon color */
+  transition: color 0.3s ease;
+}
+
+/* Hover Effect */
+.settings:hover {
+  background-color: #1acb5b; /* Optional: background color change */
+}
+
+.settings:hover .iconStyle,
+.settings:hover .title,
+.settings:hover span svg {
+  color: #fff;
+}

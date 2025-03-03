@@ -2,7 +2,7 @@
     display: flex;
     align-items: center;
     gap: 10px; /* Adjust gap as needed */
-    font-size: 20px; /* Adjust font size as per your design */
+    font-size: 17px; /* Adjust font size as per your design */
     text-decoration: none;
   }
   .navLink {
@@ -11,7 +11,14 @@
     color: #989898;
     padding: 7px;
 }
-
+.navbar {
+  z-index: 10000;
+  text-decoration: none;
+}
+.navbar{
+  background-color: #1ACB5B;
+  margin-bottom: 50px;
+}
 /* Active link style */
 .active {
     color: #36D06E;
@@ -48,8 +55,62 @@
   }
   .activeLink {
     color: #1ACB5B; 
-    border-radius: 13px;
-    background-color: #E1FFEC;    ;
+    border-radius: 4px;
+    background-color: white;    ;
     font-weight: bold;
   }
+  @media (max-width: 768px) {
+    ul li a {
+      font-size: 13px;
+      color: rgba(0, 0, 0, 0);
+      font-weight: 500;
+    }
+    ul {
+      text-align: center;
+      background-color: #09c950;
+      border-radius: 10px;
+      width: 100%;
   
+    }
+    ul li{
+      padding: 0px 0px;
+      cursor: pointer;
+      color: #1ACB5B; 
+  
+    }
+    
+    .navbar {
+      z-index: 10000;
+      background-color: white;
+      padding: 10px 10px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    ul li a {
+      font-size: 13px;
+      color: rgba(0, 0, 0, 0);
+      font-weight: 500;
+    }
+    ul {
+      text-align: center;
+      background-color: #09c950;
+      border-radius: 10px;
+      width: 97%;
+  
+    }
+    ul li{
+      padding: 0px 0px;
+      cursor: pointer;
+      color: #1ACB5B; 
+  
+    }
+    .navbar {
+      z-index: 10000;
+      background-color: #09c950;
+   
+    }
+    .navbarStyle{
+      padding: 0;
+    }
+  }

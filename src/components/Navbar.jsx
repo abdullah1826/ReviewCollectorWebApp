@@ -1,5 +1,6 @@
+import { useRef, useEffect } from "react";
 import styles from "../components/Navbar.module.css";
-import collector from "../assets/images/collector.png";
+import collector from "../assets/images/reviewCollectorWhite.png";
 import { IoPersonSharp } from "react-icons/io5";
 import { IoAnalyticsSharp } from "react-icons/io5";
 import { IoIosSettings } from "react-icons/io";
@@ -10,31 +11,50 @@ const Navbar = () => {
   const navigate = useNavigate();
   const pathname = window.location.pathname; // Current URL path
 
+  const navbarRef = useRef(null);
+
   const handleNavClick = (link) => {
-    // Navigate to the corresponding route
     if (link === "profile") navigate("/profile");
     if (link === "survey") navigate("/survey");
     if (link === "dashboard") navigate("/dashboard");
     if (link === "setting") navigate("/setting");
   };
 
+  // Close navbar toggle on outside click
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (
+        navbarRef.current &&
+        !navbarRef.current.contains(event.target)
+      ) {
+        const toggler = document.querySelector(".navbar-toggler");
+        const navbarCollapse = document.querySelector(".navbar-collapse");
+        
+        if (navbarCollapse.classList.contains("show")) {
+          toggler.click(); // Simulate click to close toggle
+        }
+      }
+    };
+
+    document.addEventListener("click", handleOutsideClick);
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, []);
+
   return (
-    <div className="container">
-      <div className={styles.navbar}>
-        <nav className="navbar navbar-expand-lg navbar-light">
+    <div className={styles.navbar} ref={navbarRef}>
+      <div className="container">
+        <nav
+          className={`navbar navbar-expand-lg navbar-light ${styles.navbarStyle}`}
+        >
           <h1 className="navbar-brand">
             <span
               className={styles.brandText}
               onClick={() => handleNavClick("profile")}
               style={{ cursor: "pointer" }}
             >
-              <img
-                src={collector}
-                width="40px"
-                height="50px"
-                alt="Collector Logo"
-              />
-              Review Collector
+              <img src={collector} width="200px" alt="Collector Logo" />
             </span>
           </h1>
           <button
@@ -45,6 +65,7 @@ const Navbar = () => {
             aria-controls="navbarNav"
             aria-expanded="false"
             aria-label="Toggle navigation"
+            style={{ outline: "none" }}
           >
             <span className="navbar-toggler-icon"></span>
           </button>
@@ -53,6 +74,7 @@ const Navbar = () => {
               <li className="nav-item">
                 <a
                   onClick={() => handleNavClick("profile")}
+                  style={{ color: "white" }}
                   className={`nav-link ${
                     pathname === "/profile" ? styles.activeLink : ""
                   }`}
@@ -71,6 +93,7 @@ const Navbar = () => {
               <li className="nav-item">
                 <a
                   onClick={() => handleNavClick("survey")}
+                  style={{ color: "white" }}
                   className={`nav-link ${
                     pathname === "/survey" ? styles.activeLink : ""
                   }`}
@@ -81,7 +104,6 @@ const Navbar = () => {
                       color: pathname === "/survey" && "#11cb55",
                       fontWeight: pathname === "/survey" && "500",
                     }}
-                    
                   >
                     <RiSurveyFill /> Survey
                   </span>
@@ -90,6 +112,7 @@ const Navbar = () => {
               <li className="nav-item">
                 <a
                   onClick={() => handleNavClick("dashboard")}
+                  style={{ color: "white" }}
                   className={`nav-link ${
                     pathname === "/dashboard" ? styles.activeLink : ""
                   }`}
@@ -101,13 +124,14 @@ const Navbar = () => {
                       fontWeight: pathname === "/dashboard" && "500",
                     }}
                   >
-                    <IoAnalyticsSharp /> Analytics
+                    <IoAnalyticsSharp /> Insights
                   </span>
                 </a>
               </li>
               <li className="nav-item">
                 <a
                   onClick={() => handleNavClick("setting")}
+                  style={{ color: "white" }}
                   className={`nav-link ${
                     pathname === "/setting" ? styles.activeLink : ""
                   }`}

@@ -1,0 +1,22 @@
+body{
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.678);
+}
+h5{
+    padding: 15px 0px;
+    font-weight: 600;
+}
+.backbutton{
+    background-color: #2BCE67;
+    color: white;
+    font-weight: 500;
+  
+    border: none;
+    outline: none;
+    height: 45px;
+    width: 90px;
+    border-radius: 10px;
+    font-size: 14px;
+    box-shadow: 0px 4px 16px 0px #0000000F;
+    cursor: pointer;
+}

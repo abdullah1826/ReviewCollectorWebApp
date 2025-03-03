@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import styles from "../Pages/Profile.module.css";
 import Navbar from "../components/Navbar";
-import { IoEyeSharp, IoQrCodeOutline } from "react-icons/io5";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { IoSettingsSharp } from "react-icons/io5";
 import { FaRegEdit } from "react-icons/fa";
@@ -11,14 +10,22 @@ import { IoIosClose } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import { getDatabase, ref, push, update, get } from "firebase/database";
 import { query, orderByChild, equalTo } from "firebase/database";
-import { CiCircleInfo } from "react-icons/ci";
 import Swal from "sweetalert2";
 
 // import coverpic from "../assets/images/image.jpg";
 import coverpic from "../assets/images/coverP.png";
+import icsimple from "../assets/icons/ic-Simple.png";
+import icsimple1 from "../assets/icons/ic-Simple1.png";
+import icsimple2 from "../assets/icons/ic-Simple2.png";
+
+import group from "../assets/icons/Group 73.png";
+import eye from "../assets/icons/Eye.png";
+import Editing from "../assets/icons/Editing.png";
+
+
+
 import profilepic from "../assets/images/profileP.png";
 import QRCode from "react-qr-code";
-import { CiEdit } from "react-icons/ci";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -31,7 +38,7 @@ const Profile = () => {
   const [activeRecord, setActiveRecord] = useState(null);
 
   const userUid = localStorage.getItem("useruid");
-  const shareData = `https://reviews-collector.kameti.pk/${userUid}`;
+  const shareData = `https://page.reviewscollector.net/${userUid}`;
 
   const handleEditClick = () => {
     navigate("/manageProfile");
@@ -44,9 +51,9 @@ const Profile = () => {
   const handleShareClick = () => {
     setShowShareModal(true);
   };
-  const handleManageProfileClick = () => {
-    setshowManageProfileModal(true);
-  };
+  // const handleManageProfileClick = () => {
+  //   setshowManageProfileModal(true);
+  // };
 
   const closeModal = () => {
     setShowAddProfileModal(false);
@@ -227,7 +234,7 @@ const Profile = () => {
     }
   };
   const handlePreviewClick = () => {
-    const shareData = `https://reviews-collector.kameti.pk/${userUid}`;
+    const shareData = `https://page.reviewscollector.net/${userUid}`;
     window.open(shareData, "_blank");
   };
 
@@ -243,9 +250,9 @@ const Profile = () => {
           text: "Link copied to clipboard!",
           icon: "success",
           confirmButtonText: "OK",
-            customClass: {
-                    confirmButton: styles.confirmButton, // Green button for info dialog
-                  },
+          customClass: {
+            confirmButton: styles.confirmButton, // Green button for info dialog
+          },
           didOpen: () => {
             const popup = Swal.getPopup();
             if (popup) {
@@ -275,7 +282,6 @@ const Profile = () => {
   return (
     <div className={styles.containerFluid} style={{ marginBottom: "20px" }}>
       <Navbar />
-      <hr />
       <div className="container">
         <div className="row">
           <div className="col-md-6" style={{ position: "relative" }}>
@@ -291,18 +297,12 @@ const Profile = () => {
                     width: "105px",
                     height: "105px",
                     objectFit: "cover",
-                    borderRadius: "26%",
-                    border: "5px solid rgb(255 255 255)",
+                    borderRadius: "72px",
+                    border: "2px solid #09C950",
+                    
                   }}
                 />
               </div>
-
-              <button
-                className={styles.addprofile}
-                onClick={handleShowManageProfile}
-              >
-                <CiEdit style={{ fontSize: "20px" }} /> Edit Profile
-              </button>
               <div className={styles.profileDetails}>
                 {/* <h4>{activeRecord?.name}</h4> */}
                 <h3>{activeRecord?.businessName}</h3>
@@ -312,12 +312,13 @@ const Profile = () => {
               <div className="text-center my-3">
                 <button
                   className={styles.manageButton}
-                  onClick={handleManageProfileClick}
-                  disabled
-                  style={{ display: "none" }}
+                onClick={handleShowManageProfile}
+
+                  // onClick={handleManageProfileClick}
+                
                 >
                   <IoSettingsSharp style={{ fontSize: "20px" }} />
-                  Manage Profiles
+                  Manage Profile
                 </button>
               </div>
             </div>
@@ -328,24 +329,34 @@ const Profile = () => {
             <div className={styles.actionButtons}>
               <button
                 onClick={handlePreviewClick}
+                style={{outline:'none'}}
                 className={`${styles.hoverEffect}`}
               >
                 <p>Preview</p>
-                <IoEyeSharp className={styles.icon} />
+                <img src={eye} width="60px" className={styles.icon}/>
+
+                {/* <IoEyeSharp className={styles.icon} /> */}
               </button>
               <button
                 onClick={handleShareClick}
+                style={{outline:'none'}}
+
                 className={`${styles.hoverEffect}`}
               >
                 <p>Share</p>
-                <IoQrCodeOutline className={styles.icon} />
+                <img src={group} width="60px" className={styles.icon}/>
+                {/* <IoQrCodeOutline className={styles.icon} /> */}
               </button>
               <button
                 onClick={handleEditClick}
+                style={{outline:'none'}}
+
                 className={`${styles.hoverEffect}`}
               >
                 <p>Edit</p>
-                <FaRegEdit className={styles.icon} />
+                <img src={Editing} width="55px" className={styles.icon}/>
+
+                {/* <FaRegEdit className={styles.icon} /> */}
               </button>
             </div>
 
@@ -355,25 +366,29 @@ const Profile = () => {
                   display: "flex",
                   justifyContent: "space-between",
                   padding: "10px 20px",
+                  cursor: "pointer", // Make the entire div clickable
                 }}
+                onClick={() => handleRadioChange("direct")} // Trigger radio button click on div click
               >
                 <div
                   style={{ display: "flex", gap: "20px", alignItems: "center" }}
                 >
-                  <CiCircleInfo
-                    id="info-icon-direct"
-                    style={{
-                      fontSize: "36px",
+                  
+                  <img src={icsimple}   style={{
+                      width: "45px",
                       color: "#000000b0",
                       cursor: "pointer",
                       outline: "none",
-                    }}
-                  />
+                    }}  
+                    id="info-icon-direct"
+                    
+                    />
+              
                   <Tooltip
                     anchorId="info-icon-direct"
                     content="This review type will be set to direct."
                   />
-                  <span>Direct</span>
+                  <span style={{fontWeight:"500"}}>Direct</span>
                 </div>
                 <input
                   type="radio"
@@ -381,36 +396,40 @@ const Profile = () => {
                   style={{
                     width: "20px",
                     accentColor: "#1faa52", // Change the color of the radio button
+                    pointerEvents: "none", // Prevent direct clicking on radio button
                   }}
                   checked={qrLinkType === "direct"}
-                  onChange={() => handleRadioChange("direct")}
+                  readOnly
                 />
               </div>
+
               <hr />
               <div
                 style={{
                   display: "flex",
                   justifyContent: "space-between",
                   padding: "10px 20px",
+                  cursor: "pointer", // Add pointer cursor for better UX
                 }}
+                onClick={() => handleRadioChange("survey")} // Trigger radio button click on div click
               >
                 <div
                   style={{ display: "flex", gap: "20px", alignItems: "center" }}
                 >
-                  <CiCircleInfo
-                    id="info-icon-survey"
-                    style={{
-                      fontSize: "36px",
+                 <img src={icsimple1}   style={{
+                      width: "45px",
                       color: "#000000b0",
                       cursor: "pointer",
                       outline: "none",
-                    }}
-                  />
+                    }}  
+                    id="info-icon-survey"
+                    
+                    />
                   <Tooltip
                     anchorId="info-icon-survey"
                     content="User will be taken to the survey page for the review."
                   />
-                  <span>Enable survey</span>
+                  <span style={{fontWeight:"500"}}>Enable Survey</span>
                 </div>
                 <input
                   type="radio"
@@ -418,36 +437,40 @@ const Profile = () => {
                   style={{
                     width: "20px",
                     accentColor: "#1faa52", // Change the color of the radio button
+                    pointerEvents: "none", // Prevent direct clicking on radio button
                   }}
                   checked={qrLinkType === "survey"}
-                  onChange={() => handleRadioChange("survey")}
+                  readOnly
                 />
               </div>
+
               <hr />
               <div
                 style={{
                   display: "flex",
                   justifyContent: "space-between",
                   padding: "10px 20px",
+                  cursor: "pointer", // Add pointer cursor for better UX
                 }}
+                onClick={() => handleRadioChange("off")} // Trigger radio button click on div click
               >
                 <div
                   style={{ display: "flex", gap: "20px", alignItems: "center" }}
                 >
-                  <CiCircleInfo
-                    id="info-icon"
-                    style={{
-                      fontSize: "36px",
+                  <img src={icsimple2}   style={{
+                      width: "45px",
                       color: "#000000b0",
                       cursor: "pointer",
                       outline: "none",
-                    }}
-                  />
+                    }}  
+                    id="info-icon"
+                    
+                    />
                   <Tooltip
                     anchorId="info-icon"
                     content="This review link will be off."
                   />
-                  <span>Turn review link off</span>
+                  <span style={{fontWeight:"500"}}>Turn Review Link Off</span>
                 </div>
                 <input
                   type="radio"
@@ -455,9 +478,10 @@ const Profile = () => {
                   style={{
                     width: "20px",
                     accentColor: "#1faa52", // Change the color of the radio button
+                    pointerEvents: "none", // Prevent direct clicking on radio button
                   }}
                   checked={qrLinkType === "off"}
-                  onChange={() => handleRadioChange("off")}
+                  readOnly
                 />
               </div>
             </div>
